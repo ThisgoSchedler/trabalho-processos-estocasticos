@@ -29,7 +29,26 @@ https://math.uchicago.edu/~may/VIGRE/VIGRE2011/REUPapers/Johnston.pdf
 
 
 
-2 - a matriz de transição;
+2 - a matriz de transição;  DAVI AUGUSTO (VOU FAZER)
+
+### Definição de Matriz de Transição
+
+A **matriz de transição** $P$ descreve as probabilidades de transição de um estado $i$ para outro estado $j$ em um único passo.
+
+Para o passeio aleatório com espaço de estados $S= \mathbb{Z}$, temos:
+
+$$ 
+P_{i,j} = 
+\begin{cases} 
+p & \text{se } j = i+1, \\
+1-p & \text{se } j = i-1, \\
+0 & \text{caso contrário.}
+\end{cases}
+$$
+
+Só para eu salvar aqui xdd
+https://stats.libretexts.org/Bookshelves/Probability_Theory/Probability_Mathematical_Statistics_and_Stochastic_Processes_(Siegrist)/11%3A_Bernoulli_Trials/11.06%3A_The_Simple_Random_Walk
+https://stats.libretexts.org/Bookshelves/Probability_Theory/Introductory_Probability_(Grinstead_and_Snell)/12%3A_Random_Walks
 
 3 - distibuição invariante e distribuição limite (quando houver);
 
