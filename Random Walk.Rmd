@@ -1,0 +1,44 @@
+---
+title: "Random Walk"
+output: html_document
+date: "2024-11-18"
+---
+
+1 - a definição do processo estocástico (cadeia de Markov);
+
+Suponha que $U=(U_{1},U_{2},U_{3}...)$ é uma sequência de variáveis aleatória independetes, com valores entre 1 e -1 e probabilidades $p \in[0,1]$ e $1-p$ respectivamente. Seja $X= (X_{0},X_{1},X_{2}...)$ a soma parcial do processo associado a $U$, então:
+
+$$X_{n}=\sum_{i=1}^{n}U_{i}$$
+
+A sequência $X$ é chamada de passeio aleatório simples (ou somente passeio aleatório) com parametro $p$.
+
+Agora suponha que $p=\frac{1}{2}$. Nesse caso, $X=(X_{0},X_{1},X_{2}...)$ é chamado de passeio aleatório simétrico simples (ou passeio simétrico aleatório). Em particular,
+
+$$P(X_{i}=e_{i})=P(X_{i}=-e_{i})=\frac{1}{2d}, i=1,2,3...d.$$
+
+Ou seja, em um passeio aleatório simétrico, o usuário se desloca aleatoriamente um passo por vez, com todas as direções possíveis sendo igualmente prováveis. Por exemplo, em duas dimensões ($d=2$), ele pode ir para cima, baixo, esquerda ou direita, com probabilidade de $\frac{1}{4}$ para cada direção.
+
+- O termo "simétrico" refere-se ao fato de que todas as direções possíveis têm a mesma probabilidade de serem escolhidas.
+
+
+Fontes:
+
+https://stats.libretexts.org/Bookshelves/Probability_Theory/Probability_Mathematical_Statistics_and_Stochastic_Processes_(Siegrist)/11%3A_Bernoulli_Trials/11.06%3A_The_Simple_Random_Walk
+
+https://math.uchicago.edu/~may/VIGRE/VIGRE2011/REUPapers/Johnston.pdf
+
+
+
+2 - a matriz de transição;
+
+3 - distibuição invariante e distribuição limite (quando houver);
+
+4 - classificação dos estados e da cadeia;
+
+5 - periodicidade;
+
+6 - Tempo de primeira visita/passagem e recorrência
+
+7 - Probabilidade de absorção
+
+8 - Curiosidades e questões interessantes relacionadas ao problema específico.
