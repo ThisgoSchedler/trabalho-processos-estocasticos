@@ -4,6 +4,12 @@ output: html_document
 date: "2024-11-18"
 ---
 
+```{r}
+library(knitr)
+
+```
+
+
 1 - a definição do processo estocástico (cadeia de Markov);
 
 Suponha que $U=(U_{1},U_{2},U_{3}...)$ é uma sequência de variáveis aleatória independetes, com valores entre 1 e -1 e probabilidades $p \in[0,1]$ e $1-p$ respectivamente. Seja $X= (X_{0},X_{1},X_{2}...)$ a soma parcial do processo associado a $U$, então:
@@ -163,6 +169,39 @@ X_n ~ N(0, n)
 $$
 
 4 - classificação dos estados e da cadeia;
+
+Por definição um estado $i$ é dito ser **recorrente** se $v_{ii}^*=1$ (a cadeira retorna ao $i$ com probabilidade 1).
+
+O estado $i$ é dito ser transiente se ele não é recorrente.
+
+Portanto, para a matriz de exemplo, considerando $p=\frac{1}{2}$:
+
+$$
+P = 
+\begin{bmatrix}
+0 & p & 0 & 0 & 0 \\
+1-p & 0 & p & 0 & 0 \\
+0 & 1-p & 0 & p & 0 \\
+0 & 0 & 1-p & 0 & p \\
+0 & 0 & 0 & 1-p & 0
+\end{bmatrix}.
+$$
+
+<div style="text-align: center;">
+```{r, echo=FALSE, out.width="30%"}
+include_graphics("img/01.png")
+```
+</div>
+
+Análisando o grafo podemos notar que os estados {0,1,2,3,4} são uma classe fechada, finita e recorrente.
+
+George Pólya provou o seguinte teorema: 
+
+*"Um passeio aleatório simples em $\mathbb{Z}^D$ é recorrente se e somente se é simétrico e D < 3."*
+
+Ou seja, para passeio aleatórios simétricos em dimensão 1 e 2, todos os estados serão recorrentes.
+
+Falta provar que é recorrente nulo!
 
 5 - periodicidade;
 
