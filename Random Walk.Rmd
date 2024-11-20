@@ -29,7 +29,7 @@ https://math.uchicago.edu/~may/VIGRE/VIGRE2011/REUPapers/Johnston.pdf
 
 
 
-2 - a matriz de transição;  DAVI AUGUSTO (VOU FAZER)
+2 - a matriz de transição; 
 
 ### Definição de Matriz de Transição
 
@@ -45,6 +45,70 @@ p & \text{se } j = i+1, \\
 0 & \text{caso contrário.}
 \end{cases}
 $$
+
+### Representação da Matriz $P$
+
+Se $S = {0, 1, 2 ,3 ,4}$ um espaço de estados discreto finito, a matriz de transição $P$ é dada por:
+
+$$
+P = 
+\begin{bmatrix}
+P_{0,0} & P_{0,1} & P_{0,2} & P_{0,3} & P_{0,4} \\
+P_{1,0} & P_{1,1} & P_{1,2} & P_{1,3} & P_{1,4} \\
+P_{2,0} & P_{2,1} & P_{2,2} & P_{2,3} & P_{2,4} \\
+P_{3,0} & P_{3,1} & P_{3,2} & P_{3,3} & P_{3,4} \\
+P_{4,0} & P_{4,1} & P_{4,2} & P_{4,3} & P_{4,4} 
+\end{bmatrix}. 
+$$
+
+Para o nosso caso de passeio aleatório isso poderia ser traduzido em:
+
+$$
+P = 
+\begin{bmatrix}
+0 & p & 0 & 0 & 0 \\
+1-p & 0 & p & 0 & 0 \\
+0 & 1-p & 0 & p & 0 \\
+0 & 0 & 1-p & 0 & p \\
+0 & 0 & 0 & 1-p & 0
+\end{bmatrix}.
+$$
+
+*Propriedades da Matriz de Transição*: **Estocasticidade**, **Simetria (para $p=1/2$)**, **Transições de Longo Prazo**
+
+Como estamos trabalhando com passeio aleatório simétrico, temos $p = \frac{1}{2}$. Temos simetria pois as probabilidades de transição para frente $(i + 1)$ e para trás $(i - 1)$ são iguais!
+Consequentemente, temos para assimétrico $p \neq \frac{1}{2}$.
+
+Podemos analisar as matrizes dada a simetria e assímetria associadas e suas propriedades!
+
+### Passeio Aleatório Simétrico $p = \frac{1}{2}$
+Se $p = \frac{1}{2}$ a matriz de transição para $S={-1, 0, 1}$ seria:
+
+$$
+P = 
+\begin{bmatrix}
+0 & \frac{1}{2} & 0 \\
+\frac{1}{2} & 0 & \frac{1}{2} \\
+0 & \frac{1}{2} & 0
+\end{bmatrix}.
+$$
+
+*Propriedades Específicas*: **Recorrência**, **Distribuição Assintótica**
+
+### Passeio Aleatório Assimétrico $p \neq \frac{1}{2}$
+No caso assimétrico o processo favorece transições para um lado.
+Por exemplo se $p = \frac{2}{3}$ a matriz para $S ={-1, 0, 1}$ seria:
+
+$$
+P = 
+\begin{bmatrix}
+0 & \frac{2}{3} & 0 \\
+\frac{1}{3} & 0 & \frac{2}{3} \\
+0 & \frac{1}{3} & 0
+\end{bmatrix}.
+$$
+
+*Propriedades Específicas*: **Têndencia Direcional**, **Irreversibilidade**
 
 Só para eu salvar aqui xdd
 https://stats.libretexts.org/Bookshelves/Probability_Theory/Probability_Mathematical_Statistics_and_Stochastic_Processes_(Siegrist)/11%3A_Bernoulli_Trials/11.06%3A_The_Simple_Random_Walk
