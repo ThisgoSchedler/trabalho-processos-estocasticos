@@ -116,6 +116,52 @@ https://stats.libretexts.org/Bookshelves/Probability_Theory/Introductory_Probabi
 
 3 - distibuição invariante e distribuição limite (quando houver);
 
+### Distribuição invariante
+A **distribuição invariante** de uma cadeia de Markov como vista em aula é uma distribuição de probabilidade $\pi = (\pi_i)$ tal que, ao aplicarmos a matriz de transição $P$, a distribuição permanece inalterada tal que:
+$$
+\pi P = \pi.
+$$
+
+Em nosso contexto de apresentação (passeio aleatório simétrico), teriamos
+
+- A matriz de transição $P$ é simétrica para $p = \frac{1}{2}$
+- Em espaços de estados finitos, a distribuição invariante é uniforme:
+
+$$ \pi_i = \frac{1}{|S|} $$
+
+- para todos os estados $i$, onde $|S|$ é o número total de estados. Isso ocorre porque as transições são igualmente prováveis em todas as direções.
+
+**Para o nosso exemplo de espaço discreto finito $S={0, 1, 2,3}:$**
+$$
+P = \begin{bmatrix}
+0 & \frac{1}{2} & 0 & 0 \\
+\frac{1}{2} & 0 & \frac{1}{2} & 0 \\
+0 & \frac{1}{2} & 0 & \frac{1}{2} \\
+0 & 0 & \frac{1}{2} & 0
+\end{bmatrix} \
+$$
+
+A distribuição invariante será:
+
+$$
+\pi = \left( \frac{1}{4}, \frac{1}{4}, \frac{1}{4}, \frac{1}{4} \right)
+$$
+
+### Distribuição Limite
+A **distibuição limite** de uma cadeia de Markov é o estado ao qual a distribuição converge  muitas iterações da matriz da transição, isto é, quando $n \to \infty$
+
+$$
+\lim_{n \to \infty} P^n(i, j)
+$$
+
+Como vimos em aula, um **espaço de estados finitos**, a distribuição limite será igual à distribuição invariante.
+
+Para um **espaço infinito $S= \mathbb{Z}$** o passeio simétrico não converge para uma distribuição estacionária porque o sistema "se espalha" indefinidamente. A probabilidade de estar e um estado específico diminui com o tempo!
+Ou seja, se começarmos no ponto 0, após *n* passos, a posição $X_n$ do objeto será distribuída aproximadamente como uma normal com média 0 e variância n
+$$
+X_n ~ N(0, n)
+$$
+
 4 - classificação dos estados e da cadeia;
 
 5 - periodicidade;
