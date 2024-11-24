@@ -179,11 +179,11 @@ Portanto, para a matriz de exemplo, considerando $p=\frac{1}{2}$:
 $$
 P = 
 \begin{bmatrix}
-0 & p & 0 & 0 & 0 \\
-1-p & 0 & p & 0 & 0 \\
-0 & 1-p & 0 & p & 0 \\
-0 & 0 & 1-p & 0 & p \\
-0 & 0 & 0 & 1-p & 0
+0 & 1 & 0 & 0 & 0 \\
+\frac{1}{2} & 0 & \frac{1}{2} & 0 & 0 \\
+0 & \frac{1}{2} & 0 & \frac{1}{2} & 0 \\
+0 & 0 & \frac{1}{2} & 0 & \frac{1}{2} \\
+0 & 0 & 0 & 1 & 0
 \end{bmatrix}.
 $$
 
@@ -193,15 +193,26 @@ include_graphics("img/01.png")
 ```
 </div>
 
-Análisando o grafo podemos notar que os estados {0,1,2,3,4} são uma classe fechada, finita e recorrente.
+Análisando o grafo podemos notar que os estados {0,1,2,3,4} são uma classe fechada, irredutível.
 
 George Pólya provou o seguinte teorema: 
 
 *"Um passeio aleatório simples em $\mathbb{Z}^D$ é recorrente se e somente se é simétrico e D < 3."*
 
-Ou seja, para passeio aleatórios simétricos em dimensão 1 e 2, todos os estados serão recorrentes.
+Então, temos a distribuição estacionária: 
 
-Falta provar que é recorrente nulo!
+$$
+\pi_{i}=\frac{1}{2}\pi_{i-1}+\frac{1}{2}\pi_{i+1}
+$$
+A soma das probabilidades para deslocamento a esquerda e a direita são iguais, então podemos argumentar que a distribuição estacionária é constante para todos os estados.
+
+Assim temos, para todos os estados $i$:
+
+$$
+\pi_{i}=\pi_{0}
+$$
+
+Como temos um processo recorrente e com distribuição estacionária $\pi_{i}=\pi_{0}$ concluímos que todos os estados em um processo de caminhada aleatória simétrica de dimensão 2 são recorrentes nulos.
 
 5 - periodicidade;
 
