@@ -31,7 +31,7 @@ https://math.uchicago.edu/~may/VIGRE/VIGRE2011/REUPapers/Johnston.pdf
 
 2 - a matriz de transição; 
 
-### Definição de Matriz de Transição
+#### Definição de Matriz de Transição
 
 A **matriz de transição** $P$ descreve as probabilidades de transição de um estado $i$ para outro estado $j$ em um único passo.
 
@@ -46,9 +46,9 @@ p & \text{se } j = i+1, \\
 \end{cases}
 $$
 
-### Representação da Matriz $P$
+#### Representação da Matriz $P$
 
-Se $S = {0, 1, 2 ,3 ,4}$ um espaço de estados discreto finito, a matriz de transição $P$ é dada por:
+Se $S = \{0, 1, 2 ,3 ,4\}$ um espaço de estados discreto finito, a matriz de transição $P$ é dada por:
 
 $$
 P = 
@@ -61,50 +61,55 @@ P_{4,0} & P_{4,1} & P_{4,2} & P_{4,3} & P_{4,4}
 \end{bmatrix}. 
 $$
 
-Para o nosso caso de passeio aleatório isso poderia ser traduzido em:
+Para o nosso caso de passeio aleatório **finito** $S =\{0,1,2,...,N\}$ a matriz de transição será uma matriz $(N+1)\times(N+1)$.
+
+Mas também nesse caso precisamos definir umas condições de contorno:
+- **Contorno reflexivo**: Se estamos no estado extremo $i=0$ ou $i=N$, o sistema "rebate" e não sai do espaço
+- **Contorno absorvente**: O sistema permanece no estado extremo $i=0$ ou $i=N$
+
+Vamos definir o **Contorno Reflexivo** para estudo e apresentação deste trabalho, pois note que definindo o contorno da matriz de transição sofremos alteração no problema todo como um geral e suas distribuições.
 
 $$
-P = 
+P =
 \begin{bmatrix}
-0 & p & 0 & 0 & 0 \\
-1-p & 0 & p & 0 & 0 \\
-0 & 1-p & 0 & p & 0 \\
-0 & 0 & 1-p & 0 & p \\
-0 & 0 & 0 & 1-p & 0
+1-p & p & 0 & \dots & 0 \\
+1-p & 0 & p & \dots & 0 \\
+0 & 1-p & 0 & \dots & p \\
+\vdots & \vdots & \ddots & \ddots & \vdots \\
+0 & \dots & 0 & 1-p & p \\
+0 & \dots & 0 & 1-p & p
 \end{bmatrix}.
 $$
 
-*Propriedades da Matriz de Transição*: **Estocasticidade**, **Simetria (para $p=1/2$)**, **Transições de Longo Prazo**
+*Propriedades da Matriz de Transição*: **Estocasticidade**, **Simetria (para $p=1/2$)**, **Sparsa** (para eu estudar para apresentação)
 
 Como estamos trabalhando com passeio aleatório simétrico, temos $p = \frac{1}{2}$. Temos simetria pois as probabilidades de transição para frente $(i + 1)$ e para trás $(i - 1)$ são iguais!
 Consequentemente, temos para assimétrico $p \neq \frac{1}{2}$.
 
 Podemos analisar as matrizes dada a simetria e assímetria associadas e suas propriedades!
 
-### Passeio Aleatório Simétrico $p = \frac{1}{2}$
-Se $p = \frac{1}{2}$ a matriz de transição para $S={-1, 0, 1}$ seria:
-
+#### **4. Exemplo para \( N = 3 \) (espaço \( S = \{0, 1, 2, 3\} \))**
+Com \( p = 0.5 \) e contornos reflexivos:
 $$
-P = 
+P =
 \begin{bmatrix}
-0 & \frac{1}{2} & 0 \\
-\frac{1}{2} & 0 & \frac{1}{2} \\
-0 & \frac{1}{2} & 0
+0.5 & 0.5 & 0 & 0 \\
+0.5 & 0 & 0.5 & 0 \\
+0 & 0.5 & 0 & 0.5 \\
+0 & 0 & 0.5 & 0.5
 \end{bmatrix}.
 $$
-
 *Propriedades Específicas*: **Recorrência**, **Distribuição Assintótica**
 
-### Passeio Aleatório Assimétrico $p \neq \frac{1}{2}$
-No caso assimétrico o processo favorece transições para um lado.
-Por exemplo se $p = \frac{2}{3}$ a matriz para $S ={-1, 0, 1}$ seria:
-
+#### Caso passeio Aleatório Assimétrico $p \neq \frac{1}{2}$
+Com \( p = 0.66 \) e contornos reflexivos:
 $$
-P = 
+P =
 \begin{bmatrix}
-0 & \frac{2}{3} & 0 \\
-\frac{1}{3} & 0 & \frac{2}{3} \\
-0 & \frac{1}{3} & 0
+0.33 & 0.66 & 0 & 0 \\
+0.33 & 0 & 0.66 & 0 \\
+0 & 0.33 & 0 & 0.66 \\
+0 & 0 & 0.33 & 0.66
 \end{bmatrix}.
 $$
 
