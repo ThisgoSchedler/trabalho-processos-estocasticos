@@ -10,7 +10,7 @@ library(knitr)
 ```
 
 
-1 - a definição do processo estocástico (cadeia de Markov);
+## Definição do processo estocástico (cadeia de Markov);
 
 Suponha que $U=(U_{1},U_{2},U_{3}...)$ é uma sequência de variáveis aleatória independetes, com valores entre 1 e -1 e probabilidades $p \in[0,1]$ e $1-p$ respectivamente. Seja $X= (X_{0},X_{1},X_{2}...)$ a soma parcial do processo associado a $U$, então:
 
@@ -24,8 +24,19 @@ $$P(X_{i}=e_{i})=P(X_{i}=-e_{i})=\frac{1}{2d}, i=1,2,3...d.$$
 
 Ou seja, em um passeio aleatório simétrico, o usuário se desloca aleatoriamente um passo por vez, com todas as direções possíveis sendo igualmente prováveis. Por exemplo, em duas dimensões ($d=2$), ele pode ir para cima, baixo, esquerda ou direita, com probabilidade de $\frac{1}{4}$ para cada direção.
 
-- O termo "simétrico" refere-se ao fato de que todas as direções possíveis têm a mesma probabilidade de serem escolhidas.
+#### Esperança
 
+Como $X_{n}$ é a soma de variáveis aleatórias $U_{i}$, a esperança de $X_{n}$ pode ser obtida:
+$$
+\mathbb{E}[X_{n}]=\mathbb{E}[\sum_{i=1}^{n}U_{i}]=\sum_{i=1}^{n}\mathbb{E}[U_{i}]
+$$
+Como $U_{i}$ assume +1 e -1 ambos com probabilidade $\frac{1}{2}$, temos:
+$$
+\mathbb{E}[U_{i}]=1\times\frac{1}{2}+(-1)\times\frac{1}{2}=0
+$$
+Portanto a esperança de $X_{n}$ é igual a zero.
+
+Isso significa que, em média, o processo não tende para um lado específico, mas está igualmente "distribuído" ao redor da origem.
 
 Fontes:
 
@@ -34,8 +45,7 @@ https://stats.libretexts.org/Bookshelves/Probability_Theory/Probability_Mathemat
 https://math.uchicago.edu/~may/VIGRE/VIGRE2011/REUPapers/Johnston.pdf
 
 
-
-2 - a matriz de transição; 
+## Matriz de transição; 
 
 #### Definição de Matriz de Transição
 
@@ -145,10 +155,10 @@ $$ \pi_i = \frac{1}{|S|} $$
 **Para o nosso exemplo de espaço discreto finito $S={0, 1, 2,3}:$**
 $$
 P = \begin{bmatrix}
-0 & \frac{1}{2} & 0 & 0 \\
+\frac{1}{2} & \frac{1}{2} & 0 & 0 \\
 \frac{1}{2} & 0 & \frac{1}{2} & 0 \\
 0 & \frac{1}{2} & 0 & \frac{1}{2} \\
-0 & 0 & \frac{1}{2} & 0
+0 & 0 & \frac{1}{2} & \frac{1}{2}
 \end{bmatrix} \
 $$
 
@@ -173,7 +183,7 @@ $$
 X_n ~ N(0, n)
 $$
 
-4 - classificação dos estados e da cadeia;
+## Classificação dos estados e da cadeia;
 
 Por definição um estado $i$ é dito ser **recorrente** se $v_{ii}^*=1$ (a cadeira retorna ao $i$ com probabilidade 1).
 
@@ -184,11 +194,11 @@ Portanto, para a matriz de exemplo, considerando $p=\frac{1}{2}$:
 $$
 P = 
 \begin{bmatrix}
-0 & 1 & 0 & 0 & 0 \\
+\frac{1}{2} & \frac{1}{2} & 0 & 0 & 0 \\
 \frac{1}{2} & 0 & \frac{1}{2} & 0 & 0 \\
 0 & \frac{1}{2} & 0 & \frac{1}{2} & 0 \\
 0 & 0 & \frac{1}{2} & 0 & \frac{1}{2} \\
-0 & 0 & 0 & 1 & 0
+0 & 0 & 0 & \frac{1}{2} & \frac{1}{2}
 \end{bmatrix}.
 $$
 
@@ -200,14 +210,31 @@ include_graphics("img/01.png")
 
 Análisando o grafo podemos notar que os estados {0,1,2,3,4} são uma classe fechada, irredutível.
 
-George Pólya provou o seguinte teorema: 
+George Pólya, em 1921, provou o teorema denominado "Teorema de Pólya" ou "Teorema da Recorrência de Caminhadas Aleatórias":
 
 *"Um passeio aleatório simples em $\mathbb{Z}^D$ é recorrente se e somente se é simétrico e D < 3."*
 
 Então, temos a distribuição estacionária: 
 
 $$
-\pi_{i}=\frac{1}{2}\pi_{i-1}+\frac{1}{2}\pi_{i+1}
+\pi_{i}=\frac{1}{2}\pi_{i-1}+\frac{1}{2}\pi_{i}
+$$
+Por exemplo:
+
+$$
+\pi_{2}=\frac{1}{2}\pi_{1}+\frac{1}{2}\pi_{2}\implies \pi_{1}=\pi_{2}
+$$
+Podemos mostrar que:
+$$
+\pi_{0}=\pi_{1}=\pi_{2}=\pi_{3}=\pi_{4}
+$$
+Usando a condição de normalização para essa distribuição estacionária:
+$$
+\pi_{0}+\pi_{1}+\pi_{2}+\pi_{3}+\pi_{4}=1
+$$
+Portanto
+$$
+\pi = (\frac{1}{5},\frac{1}{5},\frac{1}{5},\frac{1}{5},\frac{1}{5})
 $$
 A soma das probabilidades para deslocamento a esquerda e a direita são iguais, então podemos argumentar que a distribuição estacionária é constante para todos os estados.
 
@@ -219,10 +246,16 @@ $$
 
 Como temos um processo recorrente e com distribuição estacionária $\pi_{i}=\pi_{0}$ concluímos que todos os estados em um processo de caminhada aleatória simétrica de dimensão 2 são recorrentes nulos.
 
-5 - periodicidade;
+Ou seja, embora o processo seja recorrente, o tempo médio para retornar ao estado inicial (ou qualquer estado específico) é infinito. O processo eventualmente retorna ao estado, mas o tempo médio de retorno é infinito.
 
-6 - Tempo de primeira visita/passagem e recorrência
+O mesmo foi provado por George Pólya: "Em dimensões $d=2$, a caminhada aleatória simétrica é recorrente, mas o tempo médio de retorno ao ponto de origem é infinito, o que caracteriza uma recorrência nula."
 
-7 - Probabilidade de absorção
+*Referência: Pólya, G. (1921). "Über eine Aufgabe der Wahrscheinlichkeitsrechnung betreffend die Erreichbarkeit von Punkten im Raum", Mathematische Annalen, 84, 149–160. DOI: 10.1007/BF01455746.*
 
-8 - Curiosidades e questões interessantes relacionadas ao problema específico.
+## Periodicidade;
+
+## Tempo de primeira visita/passagem e recorrência
+
+## Probabilidade de absorção
+
+## Curiosidades e questões interessantes relacionadas ao problema específico.
