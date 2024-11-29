@@ -121,28 +121,33 @@ https://stats.libretexts.org/Bookshelves/Probability_Theory/Introductory_Probabi
 
 3 - distibuição invariante e distribuição limite (quando houver);
 
-### Distribuição invariante
+#### Distribuição invariante
 A **distribuição invariante** de uma cadeia de Markov como vista em aula é uma distribuição de probabilidade $\pi = (\pi_i)$ tal que, ao aplicarmos a matriz de transição $P$, a distribuição permanece inalterada tal que:
 $$
 \pi P = \pi.
 $$
 
-Em nosso contexto de apresentação (passeio aleatório simétrico), teriamos
+Em nosso contexto de apresentação (passeio aleatório simétrico *reflexivo*) a "particula" pode explorar todo o espaço $S = \{0,1,...,N\}$ de forma contínuam retornando os estados após atingir os extremos.
 
-- A matriz de transição $P$ é simétrica para $p = \frac{1}{2}$
-- Em espaços de estados finitos, a distribuição invariante é uniforme:
+Nesse caso então a distribuição invariante neste caso será **uniforme** (pois note que o passeio é simétrico).
 
-$$ \pi_i = \frac{1}{|S|} $$
+Se $\pi = [\pi_0, \pi_1, \dots, \pi_N]$ representa a distribuição invariante:
 
-- para todos os estados $i$, onde $|S|$ é o número total de estados. Isso ocorre porque as transições são igualmente prováveis em todas as direções.
+então
+
+$$
+\pi_i = \frac{1}{N+1}, \quad \forall i \in \{0, 1, \dots, N\}.
+$$
+
+Note que a distribuição reflete o fato de que ao longo prazo todos os estados têm a mesma probabilidade de serem visitados.
 
 **Para o nosso exemplo de espaço discreto finito $S={0, 1, 2,3}:$**
 $$
 P = \begin{bmatrix}
-0 & \frac{1}{2} & 0 & 0 \\
+\frac{1}{2} & \frac{1}{2} & 0 & 0 \\
 \frac{1}{2} & 0 & \frac{1}{2} & 0 \\
 0 & \frac{1}{2} & 0 & \frac{1}{2} \\
-0 & 0 & \frac{1}{2} & 0
+0 & 0 & \frac{1}{2} & \frac{1}{2}
 \end{bmatrix} \
 $$
 
@@ -152,8 +157,10 @@ $$
 \pi = \left( \frac{1}{4}, \frac{1}{4}, \frac{1}{4}, \frac{1}{4} \right)
 $$
 
-### Distribuição Limite
-A **distibuição limite** de uma cadeia de Markov é o estado ao qual a distribuição converge  muitas iterações da matriz da transição, isto é, quando $n \to \infty$
+*Ao longo prazo a partícula estará em qualquer estado com a mesma probabilidade*
+
+#### Distribuição Limite
+A **distibuição limite** de uma cadeia de Markov é o estado ao qual a distribuição converge  muitas iterações da matriz da transição, isto é, quando $n \to \infty$ independente da distribuição inicial $\pi^{(0)}$
 
 $$
 \lim_{n \to \infty} P^n(i, j)
