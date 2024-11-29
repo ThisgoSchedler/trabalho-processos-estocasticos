@@ -79,9 +79,31 @@ $$
 
 Para o nosso caso de passeio aleatório **finito** $S =\{0,1,2,...,N\}$ a matriz de transição será uma matriz $(N+1)\times(N+1)$.
 
-Mas também nesse caso precisamos definir umas condições de contorno:
+também precisamos definir umas condições de contorno:
+
 - **Contorno reflexivo**: Se estamos no estado extremo $i=0$ ou $i=N$, o sistema "rebate" e não sai do espaço
+
+$$
+P =
+\begin{bmatrix}
+0.5 & 0.5 & 0 & 0 \\
+0.5 & 0 & 0.5 & 0 \\
+0 & 0.5 & 0 & 0.5 \\
+0 & 0 & 0.5 & 0.5
+\end{bmatrix}.
+$$
+
 - **Contorno absorvente**: O sistema permanece no estado extremo $i=0$ ou $i=N$
+
+$$
+P =
+\begin{bmatrix}
+1 & 0 & 0 & 0 \\
+0.5 & 0 & 0.5 & 0 \\
+0 & 0.5 & 0 & 0.5 \\
+0 & 0 & 0 & 1
+\end{bmatrix}.
+$$
 
 Vamos definir o **Contorno Reflexivo** para estudo e apresentação deste trabalho, pois note que definindo o contorno da matriz de transição sofremos alteração no problema todo como um geral e suas distribuições.
 
@@ -128,29 +150,107 @@ P =
 0 & 0 & 0.33 & 0.66
 \end{bmatrix}.
 $$
-
 *Propriedades Específicas*: **Têndencia Direcional**, **Irreversibilidade**
 
-Só para eu salvar aqui xdd
-https://stats.libretexts.org/Bookshelves/Probability_Theory/Probability_Mathematical_Statistics_and_Stochastic_Processes_(Siegrist)/11%3A_Bernoulli_Trials/11.06%3A_The_Simple_Random_Walk
-https://stats.libretexts.org/Bookshelves/Probability_Theory/Introductory_Probability_(Grinstead_and_Snell)/12%3A_Random_Walks
+### Exemplos de transição a **n** passos:
+
+É interessante observar o comportamento da matriz de transição para um número grande de passos. Vamos considerar o caso de  $N = 3$  e  $p = 0.5$  e calcular a matriz de transição para $n = 2$ e $n = 3$, $n=4$ e $n=500$.
+
+Matriz $P^2$ (transição em 2 passos):
+
+$$
+P^2 =
+\begin{bmatrix}
+0.5 & 0.25 & 0.25 & 0 \\
+0.25 & 0.5 & 0 & 0.25 \\
+0.25 & 0 & 0.5 & 0.25 \\
+0 & 0.25 & 0.25 & 0.5
+\end{bmatrix}.
+$$
+
+O que podemos observar aqui?
+
+- As probabilidades de transição são mais equilibradas em relação à matriz original $P$, pois a random walk ja teve chance de "se mover" por mais de um passo.
+- Apesar de se espalhar o sistema ainda não atingiu uma distribuição homogênea. A cadeia ainda possui alguma "memória" do estado inicial.
+- O sistema começa a ter uma chance maior de ir para estados não-adjacentes, mas ainda há certa "preferência" por estados adjacentes.
+
+Matriz $P^3$ (transição em 3 passos):
+
+$$
+P^3 =
+\begin{bmatrix}
+0.375 & 0.375 & 0.125 & 0.125 \\
+0.375 & 0.125 & 0.375 & 0.125 \\
+0.125 & 0.375 & 0.125 & 0.375 \\
+0.125 & 0.125 & 0.375 & 0.375
+\end{bmatrix}.
+$$
+
+O que podemos observar aqui?
+
+- As probabilidades estão mais equilibradas entre os estados.
+- Apesar de ainda não ser completamente uniforme, da para notar uma maior "mistura" entre os estados.
+- O sistema está começando a perder memória do seu estado inicial, a cadeia está mais "descentralizada" e as probabilidades começam a se espalhar mais uniformemente.
+
+Matriz $P^4$ (transição em 4 passos):
+
+$$
+P^4 =
+\begin{bmatrix}
+0.375 & 0.25 & 0.25 & 0.125 \\
+0.25 & 0.375 & 0.125 & 0.25 \\
+0.25 & 0.125 & 0.375 & 0.25 \\
+0.125 & 0.25 & 0.25 & 0.375
+\end{bmatrix}.
+$$
+
+O que podemos observar aqui?
+
+- Após 4 passos, as probabilidades de transição entre os estados estão quase equilibradas, com uma leve tendência para os estados vizinhos
+- O sistema parece estar alcançando um comportamento de **distribuição estacionárioa** (ou próxima disso pelo menos)
+- Esse é um comportamento típico de uma cadeia de Markov que está perdendo sua "memória" do estado inicial e se aproximando de uma distribuição a longo prazo
+
+Matriz $P^{500}$ (transição em 500 passos):
+
+$$
+P^{500} =
+\begin{bmatrix}
+0.25 & 0.25 & 0.25 & 0.25 \\
+0.25 & 0.25 & 0.25 & 0.25 \\
+0.25 & 0.25 & 0.25 & 0.25 \\
+0.25 & 0.25 & 0.25 & 0.25
+\end{bmatrix}.
+$$
+
+
+O que podemos observar aqui?
+
+- A matriz $P^{500}$ nos mostra que, após um grande número de passos as probabilidades de transição entre os estados estão completamente equilibradas e uniformes
+- Cada estado tem uma probabilidade de transitar para qualquer outro estado. Portanto depois de muitos passos a cadeia de Markov perde sua memória do estado inicial e atinge um estado de **equilíbrio estacionário**
+- Essa distribuição uniforme de probabilidades é característica de uma cadeia de Markov irreducível e aperiódica, onde todos os estados são acessíveis e a cadeia não possui ciclos regulares.
+  
 
 3 - distibuição invariante e distribuição limite (quando houver);
 
-### Distribuição invariante
+#### Distribuição invariante
 A **distribuição invariante** de uma cadeia de Markov como vista em aula é uma distribuição de probabilidade $\pi = (\pi_i)$ tal que, ao aplicarmos a matriz de transição $P$, a distribuição permanece inalterada tal que:
 $$
 \pi P = \pi.
 $$
 
-Em nosso contexto de apresentação (passeio aleatório simétrico), teriamos
+Em nosso contexto de apresentação (passeio aleatório simétrico *reflexivo*) a "particula" pode explorar todo o espaço $S = \{0,1,...,N\}$ de forma contínuam retornando os estados após atingir os extremos.
 
-- A matriz de transição $P$ é simétrica para $p = \frac{1}{2}$
-- Em espaços de estados finitos, a distribuição invariante é uniforme:
+Nesse caso então a distribuição invariante neste caso será **uniforme** (pois note que o passeio é simétrico).
 
-$$ \pi_i = \frac{1}{|S|} $$
+Se $\pi = [\pi_0, \pi_1, \dots, \pi_N]$ representa a distribuição invariante:
 
-- para todos os estados $i$, onde $|S|$ é o número total de estados. Isso ocorre porque as transições são igualmente prováveis em todas as direções.
+então
+
+$$
+\pi_i = \frac{1}{N+1}, \quad \forall i \in \{0, 1, \dots, N\}.
+$$
+
+Note que a distribuição reflete o fato de que ao longo prazo todos os estados têm a mesma probabilidade de serem visitados.
 
 **Para o nosso exemplo de espaço discreto finito $S={0, 1, 2,3}:$**
 $$
@@ -168,8 +268,10 @@ $$
 \pi = \left( \frac{1}{4}, \frac{1}{4}, \frac{1}{4}, \frac{1}{4} \right)
 $$
 
-### Distribuição Limite
-A **distibuição limite** de uma cadeia de Markov é o estado ao qual a distribuição converge  muitas iterações da matriz da transição, isto é, quando $n \to \infty$
+*Ao longo prazo a partícula estará em qualquer estado com a mesma probabilidade*
+
+#### Distribuição Limite
+A **distibuição limite** de uma cadeia de Markov é o estado ao qual a distribuição converge  muitas iterações da matriz da transição, isto é, quando $n \to \infty$ independente da distribuição inicial $\pi^{(0)}$
 
 $$
 \lim_{n \to \infty} P^n(i, j)
