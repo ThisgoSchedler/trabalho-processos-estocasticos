@@ -359,24 +359,48 @@ O mesmo foi provado por George Pólya: "Em dimensões $d=2$, a caminhada aleató
 
  *Referência: Sheldon, M. Ross: Introduction to probability models"
 
-### Random Walk simétrica infinita com D = 1:
-Como todos os estados são comunicáveis entre si, isso implica que todos os estados terão o mesmo período, de acordo com a definição de periodicidade. Podemos observar que é impossível retornar ao estado zero após um número ímpar de passos. Ou seja:
+### Random Walk simétrica infinita com D = 1 e D = 2:
+ Em ambas as dimensões \(D = 1\) e \(D = 2\), o passeio aleatório simétrico é \textbf{recorrente}, ou seja, com \textbf{probabilidade 1}, o caminhante retornará à origem após um número finito de passos. Além disso, como todos os estados são \textbf{comunicáveis} entre si, isso implica que todos os estados terão o mesmo período, conforme a definição de \textbf{periodicidade}. O raciocínio para entender a periodicidade de um passeio aleatório simétrico em \(D = 1\) e \(D = 2\) é análogo, com o mesmo princípio fundamental de que o retorno à origem só ocorre após um número \textbf{par} de passos.
+ Para retornar ao estado zero, é necessário que o caminhante dê \(n\) passos em uma direção e \(n\) passos na direção oposta (para a direita e para a esquerda, no caso de \(D = 1\), ou em direções horizontais e verticais, no caso de \(D = 2\)). Dessa forma, o retorno à origem só é possível após \(2n\) passos. Como o retorno ao estado zero ocorre apenas em \textbf{tempos pares}, podemos definir o passeio aleatório como tendo \textbf{período \(d = 2\)}.
+ 
+ Exemplo do tempo de recorrencia ao estado zero de um random walk D = 1:
+ ```{r}
+ library(ggplot2)
 
-$P_{0,0}^2n-1 = 0$ 
+ simular_passeio_aleatorio <- function(n_passos) {
+  passos <- sample(c(-1, 1), size = n_passos, replace = TRUE)
+  trajetoria <- cumsum(passos)
+  tempos_zero <- which(trajetoria == 0)
+  return(list(trajetoria = trajetoria, tempos_zero = tempos_zero))
+ }
 
-Além disso, é possível concluir que para retornar ao estado zero, é necessário dar $n$ passos para a direita e $n$ passos para a esquerda, ou seja, somente após $2n$ passos o retorno à origem é possível. Como o retorno ao estado zero só ocorre em tempos pares, definimos o processo como tendo período $d=2$.
+ n_passos <- 100
+ resultado <- simular_passeio_aleatorio(n_passos)
 
+ df <- data.frame(Passo = 1:n_passos, Posição = resultado$trajetoria)
+ df_zero <- data.frame(Passo = resultado$tempos_zero, Posição = rep(0, length(resultado$tempos_zero)))
 
+ df_legenda <- data.frame(Passo = resultado$tempos_zero)
 
+ ggplot(df, aes(x = Passo, y = Posição)) +
+  geom_line(color = "blue", size = 1) +
+  geom_point(data = df_zero, aes(x = Passo, y = Posição), color = "red", size = 3) +
+  geom_hline(yintercept = 0, color = "black", linetype = "dashed", size = 0.8) +
+  labs(x = "t", y = "X(t)") +
+  theme_minimal() +
+  theme(axis.text = element_text(size = 5), axis.title = element_text(size = 14)) +
+  annotate("text", x = max(df$Passo) * 0.8, y = max(df$Posição) * 0.9, 
+           label = paste("Índices de Recorrência ao Zero:\n", paste(df_legenda$Passo, collapse = ", ")), 
+           size = 4, hjust = 1)
 
+ ```
 
+ Podemos perceber que todos os períodos em que o processo retorna ao zero são pares.
 
+### Random Walk simétrica com \(D \geq 3\):
+Em dimensões \(D \geq 3\), o comportamento do passeio aleatório simétrico difere significativamente daquele observado em \(D = 1\) e \(D = 2\). Nesses casos, o passeio aleatório se torna \textbf{transiente}, o que significa que, com \textbf{probabilidade 1}, o caminheiro não retornará à origem após um número finito de passos.
 
-
-
-
-
-
+Além disso, em dimensões \(D \geq 3\), o passeio aleatório é \textbf{aperiódico}, o que significa que não existe um período fixo \(d\) tal que o caminheiro retorne à origem após múltiplos inteiros de \(d\) passos.
 
 
 
