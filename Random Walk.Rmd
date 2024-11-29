@@ -253,6 +253,30 @@ O mesmo foi provado por George Pólya: "Em dimensões $d=2$, a caminhada aleató
 *Referência: Pólya, G. (1921). "Über eine Aufgabe der Wahrscheinlichkeitsrechnung betreffend die Erreichbarkeit von Punkten im Raum", Mathematische Annalen, 84, 149–160. DOI: 10.1007/BF01455746.*
 
 ## Periodicidade;
+ O estado $i$ tem período d se $P_{i,i}^n = 0$ sempre que $n$ não for divisível por $d$, e $d$ é o maior inteiro com essa propriedade. Por exemplo, começando no estado $i$ só sera possível o processo acessar o estado $i$ nos tempo 2,4,6,8,..., nesse caso o estado $i$ tem período 2. Um estado com período 1 é classificado como **aperiódico**. Periodicidade é uma propriedade de classe, ou seja, se o estado $i$ tem período $d$, e o estado $i$ e $j$ se comunicam, então o estado $j$ também tem período $d$.
+
+ *Referência: Sheldon, M. Ross: Introduction to probability models"
+
+### Random Walk simétrica infinita com D = 1:
+Como todos os estados são comunicáveis entre si, isso implica que todos os estados terão o mesmo período, de acordo com a definição de periodicidade. Podemos observar que é impossível retornar ao estado zero após um número ímpar de passos. Ou seja:
+
+$P_{0,0}^2n-1 = 0$ 
+
+Além disso, é possível concluir que para retornar ao estado zero, é necessário dar $n$ passos para a direita e $n$ passos para a esquerda, ou seja, somente após $2n$ passos o retorno à origem é possível. Como o retorno ao estado zero só ocorre em tempos pares, definimos o processo como tendo período $d=2$.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 ## Tempo de primeira visita/passagem e recorrência
 
