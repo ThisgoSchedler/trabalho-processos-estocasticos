@@ -11,7 +11,7 @@ library(ggplot2)
 ```
 
 
-1 - a definição do processo estocástico (cadeia de Markov);
+## Definição do processo estocástico (cadeia de Markov);
 
 Suponha que $U=(U_{1},U_{2},U_{3}...)$ é uma sequência de variáveis aleatória independetes, com valores entre 1 e -1 e probabilidades $p \in[0,1]$ e $1-p$ respectivamente. Seja $X= (X_{0},X_{1},X_{2}...)$ a soma parcial do processo associado a $U$, então:
 
@@ -25,8 +25,19 @@ $$P(X_{i}=e_{i})=P(X_{i}=-e_{i})=\frac{1}{2d}, i=1,2,3...d.$$
 
 Ou seja, em um passeio aleatório simétrico, o usuário se desloca aleatoriamente um passo por vez, com todas as direções possíveis sendo igualmente prováveis. Por exemplo, em duas dimensões ($d=2$), ele pode ir para cima, baixo, esquerda ou direita, com probabilidade de $\frac{1}{4}$ para cada direção.
 
-- O termo "simétrico" refere-se ao fato de que todas as direções possíveis têm a mesma probabilidade de serem escolhidas.
+#### Esperança
 
+Como $X_{n}$ é a soma de variáveis aleatórias $U_{i}$, a esperança de $X_{n}$ pode ser obtida:
+$$
+\mathbb{E}[X_{n}]=\mathbb{E}[\sum_{i=1}^{n}U_{i}]=\sum_{i=1}^{n}\mathbb{E}[U_{i}]
+$$
+Como $U_{i}$ assume +1 e -1 ambos com probabilidade $\frac{1}{2}$, temos:
+$$
+\mathbb{E}[U_{i}]=1\times\frac{1}{2}+(-1)\times\frac{1}{2}=0
+$$
+Portanto a esperança de $X_{n}$ é igual a zero.
+
+Isso significa que, em média, o processo não tende para um lado específico, mas está igualmente "distribuído" ao redor da origem.
 
 Fontes:
 
@@ -35,10 +46,9 @@ https://stats.libretexts.org/Bookshelves/Probability_Theory/Probability_Mathemat
 https://math.uchicago.edu/~may/VIGRE/VIGRE2011/REUPapers/Johnston.pdf
 
 
+## Matriz de transição;
 
-2 - a matriz de transição;
-
-### Definição de Matriz de Transição
+#### Definição de Matriz de Transição
 
 A **matriz de transição** $P$ descreve as probabilidades de transição de um estado $i$ para outro estado $j$ em um único passo.
 
@@ -53,9 +63,9 @@ p & \text{se } j = i+1, \\
 \end{cases}
 $$
 
-### Representação da Matriz $P$
+#### Representação da Matriz $P$
 
-Se $S = {0, 1, 2 ,3 ,4}$ um espaço de estados discreto finito, a matriz de transição $P$ é dada por:
+Se $S = \{0, 1, 2 ,3 ,4\}$ um espaço de estados discreto finito, a matriz de transição $P$ é dada por:
 
 $$
 P =
@@ -68,83 +78,188 @@ P_{4,0} & P_{4,1} & P_{4,2} & P_{4,3} & P_{4,4}
 \end{bmatrix}.
 $$
 
-Para o nosso caso de passeio aleatório isso poderia ser traduzido em:
+Para o nosso caso de passeio aleatório **finito** $S =\{0,1,2,...,N\}$ a matriz de transição será uma matriz $(N+1)\times(N+1)$.
+
+também precisamos definir umas condições de contorno:
+
+- **Contorno reflexivo**: Se estamos no estado extremo $i=0$ ou $i=N$, o sistema "rebate" e não sai do espaço
 
 $$
 P =
 \begin{bmatrix}
-0 & p & 0 & 0 & 0 \\
-1-p & 0 & p & 0 & 0 \\
-0 & 1-p & 0 & p & 0 \\
-0 & 0 & 1-p & 0 & p \\
-0 & 0 & 0 & 1-p & 0
+0.5 & 0.5 & 0 & 0 \\
+0.5 & 0 & 0.5 & 0 \\
+0 & 0.5 & 0 & 0.5 \\
+0 & 0 & 0.5 & 0.5
 \end{bmatrix}.
 $$
 
-*Propriedades da Matriz de Transição*: **Estocasticidade**, **Simetria (para $p=1/2$)**, **Transições de Longo Prazo**
+- **Contorno absorvente**: O sistema permanece no estado extremo $i=0$ ou $i=N$
+
+$$
+P =
+\begin{bmatrix}
+1 & 0 & 0 & 0 \\
+0.5 & 0 & 0.5 & 0 \\
+0 & 0.5 & 0 & 0.5 \\
+0 & 0 & 0 & 1
+\end{bmatrix}.
+$$
+
+Vamos definir o **Contorno Reflexivo** para estudo e apresentação deste trabalho, pois note que definindo o contorno da matriz de transição sofremos alteração no problema todo como um geral e suas distribuições.
+
+$$
+P =
+\begin{bmatrix}
+1-p & p & 0 & \dots & 0 \\
+1-p & 0 & p & \dots & 0 \\
+0 & 1-p & 0 & \dots & p \\
+\vdots & \vdots & \ddots & \ddots & \vdots \\
+0 & \dots & 0 & 1-p & p \\
+0 & \dots & 0 & 1-p & p
+\end{bmatrix}.
+$$
+
+*Propriedades da Matriz de Transição*: **Estocasticidade**, **Simetria (para $p=1/2$)**, **Sparsa** (para eu estudar para apresentação)
 
 Como estamos trabalhando com passeio aleatório simétrico, temos $p = \frac{1}{2}$. Temos simetria pois as probabilidades de transição para frente $(i + 1)$ e para trás $(i - 1)$ são iguais!
 Consequentemente, temos para assimétrico $p \neq \frac{1}{2}$.
 
 Podemos analisar as matrizes dada a simetria e assímetria associadas e suas propriedades!
 
-### Passeio Aleatório Simétrico $p = \frac{1}{2}$
-Se $p = \frac{1}{2}$ a matriz de transição para $S={-1, 0, 1}$ seria:
-
+#### **4. Exemplo para \( N = 3 \) (espaço \( S = \{0, 1, 2, 3\} \))**
+Com \( p = 0.5 \) e contornos reflexivos:
 $$
 P =
 \begin{bmatrix}
-0 & \frac{1}{2} & 0 \\
-\frac{1}{2} & 0 & \frac{1}{2} \\
-0 & \frac{1}{2} & 0
+0.5 & 0.5 & 0 & 0 \\
+0.5 & 0 & 0.5 & 0 \\
+0 & 0.5 & 0 & 0.5 \\
+0 & 0 & 0.5 & 0.5
 \end{bmatrix}.
 $$
-
 *Propriedades Específicas*: **Recorrência**, **Distribuição Assintótica**
 
-### Passeio Aleatório Assimétrico $p \neq \frac{1}{2}$
-No caso assimétrico o processo favorece transições para um lado.
-Por exemplo se $p = \frac{2}{3}$ a matriz para $S ={-1, 0, 1}$ seria:
-
+#### Caso passeio Aleatório Assimétrico $p \neq \frac{1}{2}$
+Com \( p = 0.66 \) e contornos reflexivos:
 $$
 P =
 \begin{bmatrix}
-0 & \frac{2}{3} & 0 \\
-\frac{1}{3} & 0 & \frac{2}{3} \\
-0 & \frac{1}{3} & 0
+0.33 & 0.66 & 0 & 0 \\
+0.33 & 0 & 0.66 & 0 \\
+0 & 0.33 & 0 & 0.66 \\
+0 & 0 & 0.33 & 0.66
+\end{bmatrix}.
+$$
+*Propriedades Específicas*: **Têndencia Direcional**, **Irreversibilidade**
+
+### Exemplos de transição a **n** passos:
+
+É interessante observar o comportamento da matriz de transição para um número grande de passos. Vamos considerar o caso de  $N = 3$  e  $p = 0.5$  e calcular a matriz de transição para $n = 2$ e $n = 3$, $n=4$ e $n=500$.
+
+Matriz $P^2$ (transição em 2 passos):
+
+$$
+P^2 =
+\begin{bmatrix}
+0.5 & 0.25 & 0.25 & 0 \\
+0.25 & 0.5 & 0 & 0.25 \\
+0.25 & 0 & 0.5 & 0.25 \\
+0 & 0.25 & 0.25 & 0.5
 \end{bmatrix}.
 $$
 
-*Propriedades Específicas*: **Têndencia Direcional**, **Irreversibilidade**
+O que podemos observar aqui?
 
-Só para eu salvar aqui xdd
-https://stats.libretexts.org/Bookshelves/Probability_Theory/Probability_Mathematical_Statistics_and_Stochastic_Processes_(Siegrist)/11%3A_Bernoulli_Trials/11.06%3A_The_Simple_Random_Walk
-https://stats.libretexts.org/Bookshelves/Probability_Theory/Introductory_Probability_(Grinstead_and_Snell)/12%3A_Random_Walks
+- As probabilidades de transição são mais equilibradas em relação à matriz original $P$, pois a random walk ja teve chance de "se mover" por mais de um passo.
+- Apesar de se espalhar o sistema ainda não atingiu uma distribuição homogênea. A cadeia ainda possui alguma "memória" do estado inicial.
+- O sistema começa a ter uma chance maior de ir para estados não-adjacentes, mas ainda há certa "preferência" por estados adjacentes.
+
+Matriz $P^3$ (transição em 3 passos):
+
+$$
+P^3 =
+\begin{bmatrix}
+0.375 & 0.375 & 0.125 & 0.125 \\
+0.375 & 0.125 & 0.375 & 0.125 \\
+0.125 & 0.375 & 0.125 & 0.375 \\
+0.125 & 0.125 & 0.375 & 0.375
+\end{bmatrix}.
+$$
+
+O que podemos observar aqui?
+
+- As probabilidades estão mais equilibradas entre os estados.
+- Apesar de ainda não ser completamente uniforme, da para notar uma maior "mistura" entre os estados.
+- O sistema está começando a perder memória do seu estado inicial, a cadeia está mais "descentralizada" e as probabilidades começam a se espalhar mais uniformemente.
+
+Matriz $P^4$ (transição em 4 passos):
+
+$$
+P^4 =
+\begin{bmatrix}
+0.375 & 0.25 & 0.25 & 0.125 \\
+0.25 & 0.375 & 0.125 & 0.25 \\
+0.25 & 0.125 & 0.375 & 0.25 \\
+0.125 & 0.25 & 0.25 & 0.375
+\end{bmatrix}.
+$$
+
+O que podemos observar aqui?
+
+- Após 4 passos, as probabilidades de transição entre os estados estão quase equilibradas, com uma leve tendência para os estados vizinhos
+- O sistema parece estar alcançando um comportamento de **distribuição estacionárioa** (ou próxima disso pelo menos)
+- Esse é um comportamento típico de uma cadeia de Markov que está perdendo sua "memória" do estado inicial e se aproximando de uma distribuição a longo prazo
+
+Matriz $P^{500}$ (transição em 500 passos):
+
+$$
+P^{500} =
+\begin{bmatrix}
+0.25 & 0.25 & 0.25 & 0.25 \\
+0.25 & 0.25 & 0.25 & 0.25 \\
+0.25 & 0.25 & 0.25 & 0.25 \\
+0.25 & 0.25 & 0.25 & 0.25
+\end{bmatrix}.
+$$
+
+
+O que podemos observar aqui?
+
+- A matriz $P^{500}$ nos mostra que, após um grande número de passos as probabilidades de transição entre os estados estão completamente equilibradas e uniformes
+- Cada estado tem uma probabilidade de transitar para qualquer outro estado. Portanto depois de muitos passos a cadeia de Markov perde sua memória do estado inicial e atinge um estado de **equilíbrio estacionário**
+- Essa distribuição uniforme de probabilidades é característica de uma cadeia de Markov irreducível e aperiódica, onde todos os estados são acessíveis e a cadeia não possui ciclos regulares.
+
 
 3 - distibuição invariante e distribuição limite (quando houver);
 
-### Distribuição invariante
+#### Distribuição invariante
 A **distribuição invariante** de uma cadeia de Markov como vista em aula é uma distribuição de probabilidade $\pi = (\pi_i)$ tal que, ao aplicarmos a matriz de transição $P$, a distribuição permanece inalterada tal que:
 $$
 \pi P = \pi.
 $$
 
-Em nosso contexto de apresentação (passeio aleatório simétrico), teriamos
+Em nosso contexto de apresentação (passeio aleatório simétrico *reflexivo*) a "particula" pode explorar todo o espaço $S = \{0,1,...,N\}$ de forma contínuam retornando os estados após atingir os extremos.
 
-- A matriz de transição $P$ é simétrica para $p = \frac{1}{2}$
-- Em espaços de estados finitos, a distribuição invariante é uniforme:
+Nesse caso então a distribuição invariante neste caso será **uniforme** (pois note que o passeio é simétrico).
 
-$$ \pi_i = \frac{1}{|S|} $$
+Se $\pi = [\pi_0, \pi_1, \dots, \pi_N]$ representa a distribuição invariante:
 
-- para todos os estados $i$, onde $|S|$ é o número total de estados. Isso ocorre porque as transições são igualmente prováveis em todas as direções.
+então
+
+$$
+\pi_i = \frac{1}{N+1}, \quad \forall i \in \{0, 1, \dots, N\}.
+$$
+
+Note que a distribuição reflete o fato de que ao longo prazo todos os estados têm a mesma probabilidade de serem visitados.
 
 **Para o nosso exemplo de espaço discreto finito $S={0, 1, 2,3}:$**
 $$
 P = \begin{bmatrix}
-0 & \frac{1}{2} & 0 & 0 \\
+\frac{1}{2} & \frac{1}{2} & 0 & 0 \\
 \frac{1}{2} & 0 & \frac{1}{2} & 0 \\
 0 & \frac{1}{2} & 0 & \frac{1}{2} \\
-0 & 0 & \frac{1}{2} & 0
+0 & 0 & \frac{1}{2} & \frac{1}{2}
 \end{bmatrix} \
 $$
 
@@ -154,8 +269,10 @@ $$
 \pi = \left( \frac{1}{4}, \frac{1}{4}, \frac{1}{4}, \frac{1}{4} \right)
 $$
 
-### Distribuição Limite
-A **distibuição limite** de uma cadeia de Markov é o estado ao qual a distribuição converge  muitas iterações da matriz da transição, isto é, quando $n \to \infty$
+*Ao longo prazo a partícula estará em qualquer estado com a mesma probabilidade*
+
+#### Distribuição Limite
+A **distibuição limite** de uma cadeia de Markov é o estado ao qual a distribuição converge  muitas iterações da matriz da transição, isto é, quando $n \to \infty$ independente da distribuição inicial $\pi^{(0)}$
 
 $$
 \lim_{n \to \infty} P^n(i, j)
@@ -169,7 +286,7 @@ $$
 X_n ~ N(0, n)
 $$
 
-4 - classificação dos estados e da cadeia;
+## Classificação dos estados e da cadeia;
 
 Por definição um estado $i$ é dito ser **recorrente** se $v_{ii}^*=1$ (a cadeira retorna ao $i$ com probabilidade 1).
 
@@ -180,11 +297,11 @@ Portanto, para a matriz de exemplo, considerando $p=\frac{1}{2}$:
 $$
 P =
 \begin{bmatrix}
-0 & 1 & 0 & 0 & 0 \\
+\frac{1}{2} & \frac{1}{2} & 0 & 0 & 0 \\
 \frac{1}{2} & 0 & \frac{1}{2} & 0 & 0 \\
 0 & \frac{1}{2} & 0 & \frac{1}{2} & 0 \\
 0 & 0 & \frac{1}{2} & 0 & \frac{1}{2} \\
-0 & 0 & 0 & 1 & 0
+0 & 0 & 0 & \frac{1}{2} & \frac{1}{2}
 \end{bmatrix}.
 $$
 
@@ -196,14 +313,31 @@ include_graphics("img/01.png")
 
 Análisando o grafo podemos notar que os estados {0,1,2,3,4} são uma classe fechada, irredutível.
 
-George Pólya provou o seguinte teorema:
+George Pólya, em 1921, provou o teorema denominado "Teorema de Pólya" ou "Teorema da Recorrência de Caminhadas Aleatórias":
 
 *"Um passeio aleatório simples em $\mathbb{Z}^D$ é recorrente se e somente se é simétrico e D < 3."*
 
 Então, temos a distribuição estacionária:
 
 $$
-\pi_{i}=\frac{1}{2}\pi_{i-1}+\frac{1}{2}\pi_{i+1}
+\pi_{i}=\frac{1}{2}\pi_{i-1}+\frac{1}{2}\pi_{i}
+$$
+Por exemplo:
+
+$$
+\pi_{2}=\frac{1}{2}\pi_{1}+\frac{1}{2}\pi_{2}\implies \pi_{1}=\pi_{2}
+$$
+Podemos mostrar que:
+$$
+\pi_{0}=\pi_{1}=\pi_{2}=\pi_{3}=\pi_{4}
+$$
+Usando a condição de normalização para essa distribuição estacionária:
+$$
+\pi_{0}+\pi_{1}+\pi_{2}+\pi_{3}+\pi_{4}=1
+$$
+Portanto
+$$
+\pi = (\frac{1}{5},\frac{1}{5},\frac{1}{5},\frac{1}{5},\frac{1}{5})
 $$
 A soma das probabilidades para deslocamento a esquerda e a direita são iguais, então podemos argumentar que a distribuição estacionária é constante para todos os estados.
 
@@ -215,11 +349,11 @@ $$
 
 Como temos um processo recorrente e com distribuição estacionária $\pi_{i}=\pi_{0}$ concluímos que todos os estados em um processo de caminhada aleatória simétrica de dimensão 2 são recorrentes nulos.
 
-5 - periodicidade;
+Ou seja, embora o processo seja recorrente, o tempo médio para retornar ao estado inicial (ou qualquer estado específico) é infinito. O processo eventualmente retorna ao estado, mas o tempo médio de retorno é infinito.
 
-6 - Tempo de primeira visita/passagem e recorrência
+O mesmo foi provado por George Pólya: "Em dimensões $d=2$, a caminhada aleatória simétrica é recorrente, mas o tempo médio de retorno ao ponto de origem é infinito, o que caracteriza uma recorrência nula."
 
-7 - Probabilidade de absorção
+*Referência: Pólya, G. (1921). "Über eine Aufgabe der Wahrscheinlichkeitsrechnung betreffend die Erreichbarkeit von Punkten im Raum", Mathematische Annalen, 84, 149–160. DOI: 10.1007/BF01455746.*
 
 8 - Curiosidades e questões interessantes relacionadas ao problema específico.
 
