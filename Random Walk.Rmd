@@ -4,9 +4,10 @@ output: html_document
 date: "2024-11-18"
 ---
 
-```{r}
-library(knitr)
+```{r setup, echo=FALSE}
 
+library(knitr)
+library(ggplot2)
 ```
 
 
@@ -45,7 +46,7 @@ https://stats.libretexts.org/Bookshelves/Probability_Theory/Probability_Mathemat
 https://math.uchicago.edu/~may/VIGRE/VIGRE2011/REUPapers/Johnston.pdf
 
 
-## Matriz de transição; 
+## Matriz de transição;
 
 #### Definição de Matriz de Transição
 
@@ -53,9 +54,9 @@ A **matriz de transição** $P$ descreve as probabilidades de transição de um 
 
 Para o passeio aleatório com espaço de estados $S= \mathbb{Z}$, temos:
 
-$$ 
-P_{i,j} = 
-\begin{cases} 
+$$
+P_{i,j} =
+\begin{cases}
 p & \text{se } j = i+1, \\
 1-p & \text{se } j = i-1, \\
 0 & \text{caso contrário.}
@@ -67,14 +68,14 @@ $$
 Se $S = \{0, 1, 2 ,3 ,4\}$ um espaço de estados discreto finito, a matriz de transição $P$ é dada por:
 
 $$
-P = 
+P =
 \begin{bmatrix}
 P_{0,0} & P_{0,1} & P_{0,2} & P_{0,3} & P_{0,4} \\
 P_{1,0} & P_{1,1} & P_{1,2} & P_{1,3} & P_{1,4} \\
 P_{2,0} & P_{2,1} & P_{2,2} & P_{2,3} & P_{2,4} \\
 P_{3,0} & P_{3,1} & P_{3,2} & P_{3,3} & P_{3,4} \\
-P_{4,0} & P_{4,1} & P_{4,2} & P_{4,3} & P_{4,4} 
-\end{bmatrix}. 
+P_{4,0} & P_{4,1} & P_{4,2} & P_{4,3} & P_{4,4}
+\end{bmatrix}.
 $$
 
 Para o nosso caso de passeio aleatório **finito** $S =\{0,1,2,...,N\}$ a matriz de transição será uma matriz $(N+1)\times(N+1)$.
@@ -228,7 +229,7 @@ O que podemos observar aqui?
 - A matriz $P^{500}$ nos mostra que, após um grande número de passos as probabilidades de transição entre os estados estão completamente equilibradas e uniformes
 - Cada estado tem uma probabilidade de transitar para qualquer outro estado. Portanto depois de muitos passos a cadeia de Markov perde sua memória do estado inicial e atinge um estado de **equilíbrio estacionário**
 - Essa distribuição uniforme de probabilidades é característica de uma cadeia de Markov irreducível e aperiódica, onde todos os estados são acessíveis e a cadeia não possui ciclos regulares.
-  
+
 
 3 - distibuição invariante e distribuição limite (quando houver);
 
@@ -294,7 +295,7 @@ O estado $i$ é dito ser transiente se ele não é recorrente.
 Portanto, para a matriz de exemplo, considerando $p=\frac{1}{2}$:
 
 $$
-P = 
+P =
 \begin{bmatrix}
 \frac{1}{2} & \frac{1}{2} & 0 & 0 & 0 \\
 \frac{1}{2} & 0 & \frac{1}{2} & 0 & 0 \\
@@ -316,7 +317,7 @@ George Pólya, em 1921, provou o teorema denominado "Teorema de Pólya" ou "Teor
 
 *"Um passeio aleatório simples em $\mathbb{Z}^D$ é recorrente se e somente se é simétrico e D < 3."*
 
-Então, temos a distribuição estacionária: 
+Então, temos a distribuição estacionária:
 
 $$
 \pi_{i}=\frac{1}{2}\pi_{i-1}+\frac{1}{2}\pi_{i}
@@ -354,10 +355,150 @@ O mesmo foi provado por George Pólya: "Em dimensões $d=2$, a caminhada aleató
 
 *Referência: Pólya, G. (1921). "Über eine Aufgabe der Wahrscheinlichkeitsrechnung betreffend die Erreichbarkeit von Punkten im Raum", Mathematische Annalen, 84, 149–160. DOI: 10.1007/BF01455746.*
 
-## Periodicidade;
+8 - Curiosidades e questões interessantes relacionadas ao problema específico.
 
-## Tempo de primeira visita/passagem e recorrência
+### Exercícios
 
-## Probabilidade de absorção
+1. Considere um passeio aleatório simétrico ($p = 0.5$) Dado que $X_0 = 0$, encontre a probabilidade de retorno em $t = 2n$, ou seja, $P(X_{2n} = 0)$.
 
-## Curiosidades e questões interessantes relacionadas ao problema específico.
+Para retornar a um estado precisamos que o número de passos a direita seja igual ao número de passos a esquerda.
+
+Portanto a probabilidade de **um caminho** de retorno seria;
+$$
+p^n(1-p)^n
+$$
+Se tratando de um passeio aleatório simétrico essa expressão é equivalente a;
+$$
+(0.5)^n(0.5)^n = (0.5)^{2n}
+$$
+
+Para chegar a probabilidade precisamos multiplicar pelo número de sequências (combinações de passos) que satisfazem a condição de termos o mesmo número passos para cada lado:
+$$
+\binom{2n}{n} = \frac{2n!}{n!(2n-n)!}
+$$
+
+Portanto;
+$$
+P(X_{2n} = 0) = \binom{2n}{n}(0.5)^{2n}
+$$
+
+Note ainda que como $t$ é uma contagem do número de passos e consideramos apenas passos completos temos que $t \in \mathbb{N}$.
+
+Logo para **t ímpar** a combinação não está definida, assim;
+$$
+P(X_{2n} = 0) = \binom{t}{\frac{t}{2}}p^{\frac{t}{2}}(1-p)^{\frac{t}{2}} = 0
+$$
+Concluímos com isso que é impossível voltar ao mesmo estado com um número ímpar de passos.
+
+2. Usando R, simule e plote um passeio aleatório simétrico em uma dimensão com $n$ passos depois responda:
+a) Houveram quantos retornos à origem? Qual foi a distância máxima da origem?
+b) Repita a simulação $N$ vezes. Considere $F$ como a posição final do passeio, plote a distribuição de $F$.
+c) Considerando a simulação do item anterior, qual foi o tempo médio de 1° retorno à origem?
+
+```{r ex2}
+
+sim_random_walk <- function(n) {
+
+    steps <- sample(c(-1, 1), size = n, replace = TRUE, prob = c(.5, .5))
+    return(cumsum(steps))
+}
+
+n_steps <- 1000
+n_rep   <- 500
+
+first_walk <- sim_random_walk(n_steps)
+df         <- data.frame(step = 1:n_steps, position = first_walk)
+
+ggplot(df, aes(x = step, y = position)) +
+    geom_line() +
+    labs(title = "simulação de 1 passeio aleatório",
+       x     = "Passo",
+       y     = "Posição") +
+    theme_minimal()
+```
+
+Contando retornos ao ponto de origem, no caso $X_0 = 0$ e a distância máxima do ponto inicial;
+
+```{r ex2a}
+
+returns_to_0 <- sum(first_walk == 0)
+max_dist     <- max(abs(first_walk))
+
+cat("Número de retornos à origem: ", returns_to_0, "\n")
+cat("Distância máxima alcançada do ponto inicial: ", max_dist, "\n")
+```
+
+Passo em que ocorreu a primeira volta a origem;
+
+```{r}
+
+first_return <- min(which(first_walk == 0))
+
+if (is.finite(first_return)) {
+    first_return
+} else {
+    cat("Não houve retorno.\n")
+}
+```
+
+Distribuição da posição final considerando `r n_rep` repetições;
+
+```{r ex2b}
+
+all_walks    <- list()
+return_times <- c()
+
+for (i in 1:n_rep){
+
+    all_walks[[i]]  <- sim_random_walk(n_steps)
+
+    if (is.finite(min(which(all_walks[[i]][-1] == 0)))) {
+        return_times[i] <- min(which(all_walks[[i]][-1] == 0))
+    } else {
+        return_times[i] <- 0
+    }
+}
+
+df <- data.frame(step = rep(1:n_steps, times = n_rep),
+                 position = unlist(all_walks),
+                 walk = rep(1:n_rep, each = n_steps))
+
+ggplot(df, aes(x = step, y = position, group = walk, color = as.factor(walk))) +
+    geom_line(alpha = 0.7) +
+    labs(title = "Trajetórias Simuladas",
+         x = "Passo",
+         y = "Posição",
+         color = "Passeio") +
+    theme_minimal() +
+    theme(legend.position = "none")
+
+df <- data.frame(final_pos = sapply(all_walks, function(walk) tail(walk, 1)))
+
+ggplot(df, aes(x = final_pos)) +
+    geom_histogram(fill = "lightblue", alpha = 0.7) +
+    labs(title = "Distribuição da posição final",
+         x     = "F",
+         y     = "") +
+    theme_minimal()
+```
+
+Estatísticas de 1° retorno ao ponto inicial:
+
+```{r}
+
+cat("Média do tempo de retorno:", mean(return_times[return_times > 0]), "passos.\n")
+
+df <- data.frame(returns = return_times[return_times > 0])
+
+ggplot(df, aes(x = returns)) +
+    geom_histogram(fill = "lightgreen", alpha = 0.7) +
+    labs(title = "Distribuição número de passos até o retorno",
+         x = "Passos",
+         y = "Frequência") +
+    scale_x_continuous(limits = c(0,100)) +
+    scale_y_continuous(limits = c(0,300)) +
+    theme_minimal()
+
+cat(sum(return_times == 0), "caminhos não retornaram ao estado zero.\n")
+cat("Isso representa", sum(return_times == 0)/n_rep, "do total de simulações.\n")
+```
