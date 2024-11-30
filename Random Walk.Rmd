@@ -103,7 +103,7 @@ P =
 \end{bmatrix}.
 $$
 
-*Propriedades da Matriz de Transição*: **Estocasticidade**, **Simetria (para $p=1/2$)**, **Sparsa** (para eu estudar para apresentação)
+*Propriedades da Matriz de Transição*: **Estocasticidade**, **Simetria (para $p=1/2$)**, **Sparsa** , **Aperiodicidade**, **Irredutibilidade**, **Estacionaridade**
 
 Como estamos trabalhando com passeio aleatório simétrico, temos $p = \frac{1}{2}$. Temos simetria pois as probabilidades de transição para frente $(i + 1)$ e para trás $(i - 1)$ são iguais!
 Consequentemente, temos para assimétrico $p \neq \frac{1}{2}$.
@@ -214,6 +214,7 @@ O que podemos observar aqui?
 - Essa distribuição uniforme de probabilidades é característica de uma cadeia de Markov irreducível e aperiódica, onde todos os estados são acessíveis e a cadeia não possui ciclos regulares.
   
 
+
 3 - distibuição invariante e distribuição limite (quando houver);
 
 #### Distribuição invariante
@@ -234,7 +235,8 @@ $$
 \pi_i = \frac{1}{N+1}, \quad \forall i \in \{0, 1, \dots, N\}.
 $$
 
-Note que a distribuição reflete o fato de que ao longo prazo todos os estados têm a mesma probabilidade de serem visitados.
+Note que a distribuição reflete o fato de que ao longo prazo todos os estados têm a mesma probabilidade de serem visitados como confirmamos com as matrizes de transição acima.
+
 
 **Para o nosso exemplo de espaço discreto finito $S={0, 1, 2,3}:$**
 $$
@@ -263,11 +265,84 @@ $$
 
 Como vimos em aula, um **espaço de estados finitos**, a distribuição limite será igual à distribuição invariante.
 
-Para um **espaço infinito $S= \mathbb{Z}$** o passeio simétrico não converge para uma distribuição estacionária porque o sistema "se espalha" indefinidamente. A probabilidade de estar e um estado específico diminui com o tempo!
-Ou seja, se começarmos no ponto 0, após *n* passos, a posição $X_n$ do objeto será distribuída aproximadamente como uma normal com média 0 e variância n
+Tendo isso em mente, no nosso caso reflexivo a **distribuição limite** coincide com a distribuição invariante:
+
 $$
-X_n ~ N(0, n)
+\lim_{t \to \infty} P(X_t = i) = \pi_i = \frac{1}{N+1}, \quad \forall i.
 $$
+
+Isso acontece por que o controno reflexivo permite que o sistema continue a se misturar e alcançar equilíbrio uniforme.
+
+Temos com isso algumas propriedades importantes para esse tipo de random walk:
+
+- **Reversibilidade** : O passeio com contorno reflexivo é reversível, ou seja temos equilbrio de probabilidade tal que:
+
+$$
+\pi_i P_{ij} = \pi_j P_{ji}, \quad \forall i, j.
+$$
+
+- **Mixing Time**: O tempo necessário para atingir a distribuição uniforme (limite) depende do tamanho do espaçço $N + 1$
+- **Propriedade de Confinamento** : O reflexivo evita que a partícula "escape", garantindo que a soma das probabilidades seja sempre 1.
+- 
+
+**Muda muita coisa se estamos falando de contorno absorvente?** *Muda sim, e muito!*
+
+Se analisarmos o contexto do passeio aleatório simétrico com **contorno absorvente**, vemos que as regras de transições são modificadas, de modo que, ao atingir um dos estados do contorno ($i=0$ ou $i=N$), o processo **não pode mais sair desse estado**.
+
+Então ao vermos a **distribuição estacionária**, temos que ver diferente do sentido clássico pois o sistema pode ser absorvido em $0$ ou $N$. No entando podemos descrever a **probabilidade de absorção** em cada estado absorvente. 
+
+Então suponhamos que o passeio comece no estado $i (1 \leq i \leq N-1)$. 
+
+- $P^{(0)}_i$ -> Probabiliadde do passeio ser absorvido no estado 0
+- $P^{(N)}_i$ -> Probabiliadde do passeio ser absorvido no estado N
+
+Isso pode ser modelado pelas equações de **probabilidades de absorção.**
+
+As equações de recorrência de $P^{(0)}_i$ e $P^{(N)}_i$ são dadas por:
+
+$$
+P^{0}_i = \frac{1}{2} P_{i-1}^{(0)} + \frac{1}{2} P_{i+1}^{(0)}
+$$
+
+com as condições de contorno:
+
+$$
+P_0^{(0)} = 1, \quad P_N^{(0)} = 0.
+$$
+
+
+fica análogo a probabilidade de absorção em $N$:
+
+$$
+P_i^{(N)} = \frac{1}{2} P_{i-1}^{(N)} + \frac{1}{2} P_{i+1}^{(N)}
+$$
+
+com as condições de contorno:
+
+$$
+P_0^{(N)} = 0, \quad P_N^{(N)} = 1.
+$$
+
+Essas equações resolvidas de forma analítica resultam em soluções que descrevem a probabilidade de absorção de qualquer estado $i$.
+
+Para um $P^{0}_i$ (probabilidade de ser absorvido no estado 0)
+
+$$
+P_i^{(0)} = \frac{N - i}{N}.
+$$
+
+Para um $P^{N}_i$ (probabilidade de ser absorvido no estado N)
+
+$$
+P_i^{(N)} = \frac{i}{N}.
+$$
+
+Quando falamos agora da **distribuição limite** falamos do passeio ser absorvido em um dos estados de contorno, dessa forma o processo termina.
+Então a distribução limite estará concentrada nas **probabilidades de absorção $0$ e $N$**
+
+E as probabilidades são as mesmas dadas acima para $P^{0}_i$ e $P^{N}_i$.
+
+Essas probabilidades determinam a **distribuição limite** do processo quando o número de passos tende para o infinito, pois o processo se estabiliza no estado absorvente após um nímero suficiente de transições.
 
 4 - classificação dos estados e da cadeia;
 
