@@ -545,9 +545,6 @@ Como o processo possui essas características podemos afirmar que estamos trabal
 - Terá apenas uma distribuição estacionária que é igual a distribuição limite:
 $lim_{n \to \infty} P^n(i, j) = \pi_j$
 
-- **Teorema ergódico**: Para qualquer função $f$ definida nos estados da cadeia, a média temporal converge para a média esperada sob $\pi$ quase certamente:
-$\frac{1}{n} \sum_{k=1}^n f(X_k) \to \mathbb{E}_{\pi}[f(X)]$
-
 - O tempo médio de retorno ao estado $i$, denotado por $\mathbb{E}_i[T_i]$, é inversamente proporcional à probabilidade estacionária $\pi_i$:
 $\mathbb{E}_i[T_i] = \frac{1}{\pi_i}$
 
@@ -569,12 +566,7 @@ P =
 
 O processo começa no estado \( 0 \), com uma distribuição inicial \( (1, 0, 0, 0) \).
 
-Além disso, as propriedades analisadas neste estudo, como tempos de primeira visita, tempos de retorno e recorrência, também se aplicam a espaços de estados maiores. Por exemplo, para \( S = \{0, 1, 2, \dots, N\} \) com \( N > 3 \), o processo mantém características essenciais, como ergodicidade.
-
-Este estudo oferece uma visão geral desses conceitos, ilustrados em um espaço de estados simples, mas aplicáveis a cenários mais amplos e complexos.
-
-
-Gerando uma trajetoria de 100 passos do processo
+Além disso, as propriedades analisadas neste estudo, como tempos de primeira visita, tempos de retorno e recorrência, também se aplicam a espaços de estados maiores.
 
 ```{r}
 set.seed(150)
@@ -627,7 +619,7 @@ ggplot(trajetoria_1, aes(x = time, y = state)) +
 O tempo de primeira visita ao estado $j$ a partir de um estado inicial $i$ é definido como o menor número de passos necessários para o passeio atingir $j$ pela primeira vez. Denotamos esse tempo como $T_j$, onde:
 $T_j = \min \{ n \geq 1 \mid X_n = j \}$
 
-Vamos analisar o comportamento da primeira chegada ao estado 3, dado que X0 = 0
+Vamos analisar o comportamento da primeira chegada ao estado 3
 ```{r,message=FALSE}
 n_rep <- 1000 
 n_steps <- 100
@@ -656,7 +648,7 @@ ggplot(T_data, aes(x = Ts)) +
 ```
 
 ### Tempo médio de retorno ao estado 3
-Vimos anteriormente que este é um processo ergódico, portanto, esperamos que o tempo médio de retorno ao estado seja inversamente proporcional à probabilidade estacionária $pi_i$:
+Vimos anteriormente que este é um processo ergódico, portanto, esperamos que o tempo médio de retorno ao estado seja inversamente proporcional à probabilidade estacionária $\pi_i$:
 
 $\mathbb{E}_i[T_i] = \frac{1}{\pi_i}$
 
@@ -734,8 +726,7 @@ for (k in names(medias)) {
 }
 ```
 
-A análise da \( k \)-ésima passagem pelo estado 3 está diretamente relacionada à recorrência positiva do processo. Como o passeio aleatório simétrico é recorrente, garantimos que, independentemente do estado inicial, o processo revisitará o estado 3 infinitas vezes com probabilidade 1.
-Além disso, em um processo ergódico como este, o tempo médio entre visitas consecutivas a um estado é finito e inversamente proporcional à probabilidade estacionária do estado. No caso do estado 3, com \( \pi_3 = \frac{1}{4} \), o tempo médio de retorno ao estado é:
+O tempo médio entre visitas consecutivas a um estado é finito e inversamente proporcional à probabilidade estacionária do estado. No caso do estado 3, com \( \pi_3 = \frac{1}{4} \), o tempo médio de retorno ao estado é:
 
 $\mathbb{E}[T_3] = \frac{1}{\pi_3} = 4$
 
