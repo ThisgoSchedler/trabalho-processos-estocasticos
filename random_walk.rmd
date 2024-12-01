@@ -386,7 +386,7 @@ P =
 $$
 
 <div style="text-align: center;">
-![](img\01.png)
+![](img/01.png)
 </div>
 
 Análisando o grafo podemos notar que os estados {0,1,2,3,4} são uma classe fechada, irredutível.
