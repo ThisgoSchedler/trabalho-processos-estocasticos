@@ -21,7 +21,7 @@ library(plotly)
 
 ## Definição do processo estocástico (cadeia de Markov);
 
-Suponha que $U=(U_{1},U_{2},U_{3}...)$ é uma sequência de variáveis aleatória independetes, com valores entre 1 e -1 e probabilidades $p \in[0,1]$ e $1-p$ respectivamente. Seja $X= (X_{0},X_{1},X_{2}...)$ a soma parcial do processo associado a $U$, então:
+Suponha que $U=(U_{1},U_{2},U_{3}...)$ é uma sequência de variáveis aleatória independentes, cada $U_{i}$ podendo assumir valores 1 ou -1, e probabilidades $p$ e $1-p$ respectivamente. Seja $X= (X_{0},X_{1},X_{2}...)$ a soma parcial do processo associado a $U$, então:
 
 $$X_{n}=\sum_{i=1}^{n}U_{i}$$
 
@@ -39,7 +39,7 @@ Como $X_{n}$ é a soma de variáveis aleatórias $U_{i}$, a esperança de $X_{n}
 $$
 \mathbb{E}[X_{n}]=\mathbb{E}[\sum_{i=1}^{n}U_{i}]=\sum_{i=1}^{n}\mathbb{E}[U_{i}]
 $$
-Como $U_{i}$ assume +1 e -1 ambos com probabilidade $\frac{1}{2}$, temos:
+Como $U_{i}$ assume 1 e -1 ambos com probabilidade $\frac{1}{2}$, temos:
 $$
 \mathbb{E}[U_{i}]=1\times\frac{1}{2}+(-1)\times\frac{1}{2}=0
 $$
@@ -391,42 +391,14 @@ George Pólya, em 1921, provou o teorema denominado "Teorema de Pólya" ou "Teor
 
 *"Um passeio aleatório simples em $\mathbb{Z}^D$ é recorrente se e somente se é simétrico e D < 3."*
 
-Então, temos a distribuição estacionária:
+Além disso George Pólya mostrou que para dimensão $d=1$ é recorrente positivo (com tempo esperado para retornar ao estado $i$ finito), para dimensão $d=2$ é recorrente nulo (tempo esperado para retornar a estado $i$ infinito), e para dimensão $d\geq3$ é transiente.
 
-$$
-\pi_{i}=\frac{1}{2}\pi_{i-1}+\frac{1}{2}\pi_{i}
-$$
-Por exemplo:
+Artigo:
 
-$$
-\pi_{2}=\frac{1}{2}\pi_{1}+\frac{1}{2}\pi_{2}\implies \pi_{1}=\pi_{2}
-$$
-Podemos mostrar que:
-$$
-\pi_{0}=\pi_{1}=\pi_{2}=\pi_{3}=\pi_{4}
-$$
-Usando a condição de normalização para essa distribuição estacionária:
-$$
-\pi_{0}+\pi_{1}+\pi_{2}+\pi_{3}+\pi_{4}=1
-$$
-Portanto
-$$
-\pi = (\frac{1}{5},\frac{1}{5},\frac{1}{5},\frac{1}{5},\frac{1}{5})
-$$
-A soma das probabilidades para deslocamento a esquerda e a direita são iguais, então podemos argumentar que a distribuição estacionária é constante para todos os estados.
+Pólya, G. Über eine Aufgabe der Wahrscheinlichkeitsrechnung betreffend die Irrfahrt im Straßennetz. Mathematische Annalen, 84(1–2), 149–160, 1921.
+DOI: 10.1007/BF01458701
 
-Assim temos, para todos os estados $i$:
-
-$$
-\pi_{i}=\pi_{0}
-$$
-
-Como temos um processo recorrente e com distribuição estacionária $\pi_{i}=\pi_{0}$ concluímos que todos os estados em um processo de caminhada aleatória simétrica de dimensão 2 são recorrentes nulos.
-
-Ou seja, embora o processo seja recorrente, o tempo médio para retornar ao estado inicial (ou qualquer estado específico) é infinito. O processo eventualmente retorna ao estado, mas o tempo médio de retorno é infinito.
-
-O mesmo foi provado por George Pólya: "Em dimensões $d=2$, a caminhada aleatória simétrica é recorrente, mas o tempo médio de retorno ao ponto de origem é infinito, o que caracteriza uma recorrência nula."
-
+tradução do título: "Sobre um problema da teoria da probabilidade relacionado ao passeio aleatório simétrico"
 
 ## Periodicidade;
 O estado $i$ tem período d se $P_{i,i}^n = 0$ sempre que $n$ não for divisível por $d$, e $d$ é o maior inteiro com essa propriedade. Por exemplo, começando no estado $i$ só sera possível o processo acessar o estado $i$ nos tempo 2,4,6,8,..., nesse caso o estado $i$ tem período 2. Um estado com período 1 é classificado como **aperiódico**. Periodicidade é uma propriedade de classe, ou seja, se o estado $i$ tem período $d$, e o estado $i$ e $j$ se comunicam, então o estado $j$ também tem período $d$.
