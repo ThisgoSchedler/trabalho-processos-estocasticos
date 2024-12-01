@@ -566,6 +566,7 @@ P =
 0 & 0 & \frac{1}{2} & \frac{1}{2}
 \end{bmatrix}
 \]
+
 O processo começa no estado \( 0 \), com uma distribuição inicial \( (1, 0, 0, 0) \).
 
 Além disso, as propriedades analisadas neste estudo, como tempos de primeira visita, tempos de retorno e recorrência, também se aplicam a espaços de estados maiores. Por exemplo, para \( S = \{0, 1, 2, \dots, N\} \) com \( N > 3 \), o processo mantém características essenciais, como ergodicidade.
@@ -574,7 +575,8 @@ Este estudo oferece uma visão geral desses conceitos, ilustrados em um espaço 
 
 
 Gerando uma trajetoria de 100 passos do processo
-```{r,message = F,eval=params$run_chunk}
+
+```{r}
 set.seed(150)
 
 # Matriz de transição
@@ -598,17 +600,25 @@ markov <- function(init, mat, n) {
   }
   return(X)
 }
+
+n_steps <- 100  # Número de passos
+times <- 0:n_steps  # Vetor de tempo
+trajetoria <- markov(init, P, n_steps)  # Gera a trajetória
+
 trajetoria_1 <- data.frame(
   time = times,
   state = trajetoria
 )
+
+# Gráfico
+library(ggplot2)
 ggplot(trajetoria_1, aes(x = time, y = state)) +
   geom_line() +
   geom_point(size = 2) +
-  scale_y_continuous(limits = c(1, 3)) +
+  scale_y_continuous(limits = c(1, 4)) +  # Inclui todos os estados possíveis
   labs(
     x = "Tempo (t)",
-    y = "Estado",
+    y = "Estado"
   ) +
   theme_minimal()
 ```
@@ -618,7 +628,7 @@ O tempo de primeira visita ao estado $j$ a partir de um estado inicial $i$ é de
 $T_j = \min \{ n \geq 1 \mid X_n = j \}$
 
 Vamos analisar o comportamento da primeira chegada ao estado 3, dado que X0 = 0
-```{r,eval=params$run_chunk}
+```{r,message=FALSE}
 n_rep <- 1000 
 n_steps <- 100
 Ts <- numeric(n_rep)
@@ -629,7 +639,7 @@ for (i in 1:n_rep) {
   Ts[i] <- min(times[trajetoria == 4])
 }
 
-cat("Em média o processo visitará o estado 3 pela primeira vez no tempo: ",mean(Ts_clean))
+cat("Em média o processo visitará o estado 3 pela primeira vez no tempo: ",mean(Ts))
 
 T_data <- data.frame(Ts = Ts)
 
