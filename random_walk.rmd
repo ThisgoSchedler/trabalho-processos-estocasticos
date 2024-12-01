@@ -2,14 +2,21 @@
 title: "Passeio Aleatório Simétrico"
 author: "Davi, Diogo, João e Thiago"
 date: "`r Sys.Date()`"
+output: rmdformats::downcute
+params:
+  run_chunk: true
 ---
 
 ```{r setup, echo=FALSE}
 
 knitr::opts_chunk$set(warning = FALSE)
-
+knitr::opts_chunk$set(message = FALSE)
+```
+```{r libs, echo=FALSE}
 library(knitr)
 library(ggplot2)
+library(gganimate)
+library(plotly)
 ```
 
 ## Definição do processo estocástico (cadeia de Markov);
@@ -473,12 +480,126 @@ Além disso, em dimensões \(D \geq 3\), o passeio aleatório é \textbf{aperió
 
 ## Probabilidade de Absorção ???
 
-## Curiosidades ???
+## Curiosidades e Aplicações
+
+### Random walk em duas e três dimensões
+```{r 2d_walk, echo = FALSE, eval=params$run_chunk,}
+
+walk <- function(steps) {
+
+    x <- vector(length=steps)
+    y <- vector(length=steps)
+
+    x[1] <- 0
+    y[1] <- 0
+
+    direction <- 0
+    amt       <- 0
+
+    for (i in 2:steps) {
+
+        direction <- rbinom(1, 1, 0.5)
+        amt       <- sample(c(-1,1), 1)
+
+        if (direction==0) {
+            x[i] <- x[i - 1] + amt
+            y[i] <- y[i - 1]
+        }
+        else {
+            x[i] <- x[i - 1]
+            y[i] <- y[i - 1] + amt
+        }
+    }
+  return(data.frame(x,y, ite=1:steps))
+}
+
+df <- walk(100)
+
+p <- ggplot(df, aes(x,y)) +
+     geom_path() + geom_point() +
+     theme_minimal()
+
+a <- p + transition_reveal(along=ite)
+a
+```
+
+```{r 3d_walk, echo=FALSE, eval=params$run_chunk}
+
+walk_3d <- function(steps) {
+
+    x <- vector(length = steps)
+    y <- vector(length = steps)
+    z <- vector(length = steps)
+
+    x[1] <- 0
+    y[1] <- 0
+    z[1] <- 0
+
+    for (i in 2:steps) {
+        direction <- sample(1:3, 1)  # Escolhe aleatoriamente x, y ou z
+        amt       <- sample(c(-1, 1), 1)   # Movimenta +1 ou -1
+
+        if (direction == 1) {
+            x[i] <- x[i - 1] + amt
+            y[i] <- y[i - 1]
+            z[i] <- z[i - 1]
+        } else if (direction == 2) {
+            x[i] <- x[i - 1]
+            y[i] <- y[i - 1] + amt
+            z[i] <- z[i - 1]
+        } else {
+            x[i] <- x[i - 1]
+            y[i] <- y[i - 1]
+            z[i] <- z[i - 1] + amt
+        }
+    }
+    return(data.frame(x, y, z, ite = 1:steps))
+}
+
+df <- walk_3d(400)
+
+fig <- plot_ly(df, x = ~x, y = ~y, z = ~z, type = 'scatter3d', mode = 'lines+markers',
+               marker = list(size = 4), line = list(width = 2)) %>%
+    layout(scene = list(xaxis = list(title = 'X'),
+                        yaxis = list(title = 'Y'),
+                        zaxis = list(title = 'Z')))
+fig
+```
+
+> "A drunk man will find his way home, but a drunk bird may get lost forever."
+> – Shizuo Kakutani
+
+### Livros relacionados
+
+![](img/drunkards_walk.jpg)|![](img\random_walk_modern_intro.jpg)|![](img\random_walk_ws.jpg)
+:-------------------------:|:---------------------------:|:---------------------------
+
+- **Mercado Financeiro:**
+    - Predição do preço de ações;
+    - Simulação de risco;
+- Física e Química:
+    - Propagação de calor;
+    - Mutações genéticas;
+    - Movimento de moléculas;
+    - Formação de polímeros;
+- Biologia:
+    - Movimentos de animais;
+- Computação:
+    - PageRank;
+    - Recomendações em Redes Sociais;
+
+### Aplicações mais úteis
+
+<div style="text-align: center;">
+![Quantum Cloud, Londres](img/quantum_cloud.jpg)
+</div>
+
 
 ## Exercícios
+### 1
+Considere um passeio aleatório simétrico ($p = 0.5$) Dado que $X_0 = 0$, encontre a probabilidade de retorno em $t = 2n$, ou seja, $P(X_{2n} = 0)$.
 
-1. Considere um passeio aleatório simétrico ($p = 0.5$) Dado que $X_0 = 0$, encontre a probabilidade de retorno em $t = 2n$, ou seja, $P(X_{2n} = 0)$.
-
+*** Resolução ***
 Para retornar a um estado precisamos que o número de passos a direita seja igual ao número de passos a esquerda.
 
 Portanto a probabilidade de **um caminho** de retorno seria;
@@ -508,12 +629,14 @@ P(X_{2n} = 0) = \binom{t}{\frac{t}{2}}p^{\frac{t}{2}}(1-p)^{\frac{t}{2}} = 0
 $$
 Concluímos com isso que é impossível voltar ao mesmo estado com um número ímpar de passos.
 
-2. Usando R, simule e plote um passeio aleatório simétrico em uma dimensão com $n$ passos depois responda:
+### 2
+Usando R, simule e plote um passeio aleatório simétrico em uma dimensão com $n$ passos depois responda:
 a) Houveram quantos retornos à origem? Qual foi a distância máxima da origem?
 b) Repita a simulação $N$ vezes. Considere $F$ como a posição final do passeio, plote a distribuição de $F$.
 c) Considerando a simulação do item anterior, qual foi o tempo médio de 1° retorno à origem?
 
-```{r ex2}
+*** Resolução ***
+```{r ex2, eval=params$run_chunk}
 
 sim_random_walk <- function(n) {
 
@@ -522,7 +645,7 @@ sim_random_walk <- function(n) {
 }
 
 n_steps <- 1000
-n_rep   <- 100
+n_rep   <- 500
 
 first_walk <- sim_random_walk(n_steps)
 df         <- data.frame(step = 1:n_steps, position = first_walk)
@@ -537,7 +660,7 @@ ggplot(df, aes(x = step, y = position)) +
 
 Contando retornos ao ponto de origem, no caso $X_0 = 0$ e a distância máxima do ponto inicial;
 
-```{r ex2a}
+```{r ex2a, eval=params$run_chunk}
 
 returns_to_0 <- sum(first_walk == 0)
 max_dist     <- max(abs(first_walk))
@@ -548,7 +671,7 @@ cat("Distância máxima alcançada do ponto inicial: ", max_dist, "\n")
 
 Passo em que ocorreu a primeira volta a origem;
 
-```{r}
+```{r, eval=params$run_chunk}
 
 first_return <- min(which(first_walk == 0))
 
@@ -559,9 +682,9 @@ if (is.finite(first_return)) {
 }
 ```
 
-Distribuição da posição final considerando `r n_rep` repetições;
+Distribuição da posição final considerando 500 repetições;
 
-```{r ex2b}
+```{r ex2b, eval=params$run_chunk}
 
 all_walks    <- list()
 return_times <- c()
@@ -602,7 +725,7 @@ ggplot(df, aes(x = final_pos)) +
 
 Estatísticas de 1° retorno ao ponto inicial:
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, eval=params$run_chunk}
 
 cat("Média do tempo de retorno:", mean(return_times[return_times > 0]), "passos.\n")
 
