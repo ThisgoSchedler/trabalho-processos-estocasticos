@@ -468,12 +468,14 @@ simular_passeio_aleatorio <- function(n_passos) {
 
 ```
 
-Isso prejudica a análise de recorrência e transitoriedade, limitando a capacidade de interpretar ou prever padrões de longo prazo. Segundo o livro de Frank Spitzer: Principles of Random Walk, um passeio aleatório periódico é um processo mal interpretado porque as restrições impostas pela periodicidade dificultam o estudo de propriedades essenciais, como o comportamento de longo prazo e a convergência para distribuições estacionárias. Felizmente, é possível transformar um passeio periódico em aperiódico sem perder as propriedades importantes do processo, como irredutibilidade e recorrência positiva
-
-Como estamos trabalhando com passeios aleatórios simétricos em $S = \{0, 1,...,N\}$ com bordas reflexivas, a introdução dessas bordas elimina a periodicidade do processo. Isso ocorre porque,ao atingir os limites N , o passeio é refletido, impedindo que ele siga o padrão regular de tempos de retorno típico de processos periódicos. Essa característica permite que o processo fique nos estados 0 ou N por um tempo arbitrário, tornando-o aperiódico.
+Isso prejudica a análise de recorrência e transitoriedade, limitando a capacidade de interpretar ou prever padrões de longo prazo. Segundo o livro de Frank Spitzer: Principles of Random Walk, um passeio aleatório periódico é um processo mal formulado porque as restrições impostas pela periodicidade dificultam o estudo de propriedades essenciais, como o comportamento de longo prazo e a convergência para distribuições estacionárias.
 
 
-A aperiodicidade é crucial para garantir que o processo explore o espaço de estados de maneira mais flexível, sem restrições temporais, e para assegurar a convergência para uma distribuição estacionária, quando o espaço de estados é finito.
+# Transformando um passeio aleatório periódico em aperiódico:
+
+Spitzer ressalta que, em termos da teoria dos grupos, todo passeio periódico pode ser reduzido a um caso aperiódico porque o grupo subjacente $S$ é isomorfo a um grupo $bar{S}$ de dimensão apropriada. Isso significa que, mesmo que o passeio seja originalmente periódico, existe uma maneira de reestruturar $S$ para alinhar o passeio com uma configuração aperiódica.
+
+Um exemplo disso, é o caso em que trabalhamos com passeios aleatórios simétricos em $S = \{0, 1,...,N\}$ com bordas reflexivas, a introdução dessas bordas elimina a periodicidade do processo. Isso ocorre porque,ao atingir os limites N , o passeio é refletido, impedindo que ele siga o padrão regular de tempos de retorno típico de processos periódicos. Essa característica permite que o processo fique nos estados 0 ou N por um tempo arbitrário, tornando-o aperiódico.
 
 Vamos simular uma trajetória da matriz de transição que estamos trabalhando para verificar a aperiodicidade
 
@@ -485,7 +487,6 @@ P = \begin{bmatrix}
 0 & 0 & \frac{1}{2} & \frac{1}{2}
 \end{bmatrix} \
 $$
-
 
 ```{r,echo=FALSE}
 library(ggplot2)
@@ -534,7 +535,13 @@ ggplot(df, aes(x = Passo, y = Posição)) +
 
 Podemos verificar que o processo atinge o estado 0 em tempos arbitrários. O que indica a aperíodicidade do processo.
 
-## Tempo de 1° visita/passagem e recorrência ???
+## Tempo de 1° visita/passagem e recorrência
+O tempo de primeira visita ao estado $j$ a partir de um estado inicial $i$ é definido como o menor número de passos necessários para o passeio atingir $j$ pela primeira vez. Denotamos esse tempo como $T_j$, onde:
+
+$T_j = \min \{ n \geq 1 \mid X_n = j \}$
+
+
+
 
 ## Probabilidade de Absorção ???
 
