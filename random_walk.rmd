@@ -427,20 +427,20 @@ Ou seja, embora o processo seja recorrente, o tempo médio para retornar ao esta
 
 O mesmo foi provado por George Pólya: "Em dimensões $d=2$, a caminhada aleatória simétrica é recorrente, mas o tempo médio de retorno ao ponto de origem é infinito, o que caracteriza uma recorrência nula."
 
+
 ## Periodicidade;
- O estado $i$ tem período d se $P_{i,i}^n = 0$ sempre que $n$ não for divisível por $d$, e $d$ é o maior inteiro com essa propriedade. Por exemplo, começando no estado $i$ só sera possível o processo acessar o estado $i$ nos tempo 2,4,6,8,..., nesse caso o estado $i$ tem período 2. Um estado com período 1 é classificado como **aperiódico**. Periodicidade é uma propriedade de classe, ou seja, se o estado $i$ tem período $d$, e o estado $i$ e $j$ se comunicam, então o estado $j$ também tem período $d$.
+O estado $i$ tem período d se $P_{i,i}^n = 0$ sempre que $n$ não for divisível por $d$, e $d$ é o maior inteiro com essa propriedade. Por exemplo, começando no estado $i$ só sera possível o processo acessar o estado $i$ nos tempo 2,4,6,8,..., nesse caso o estado $i$ tem período 2. Um estado com período 1 é classificado como **aperiódico**. Periodicidade é uma propriedade de classe, ou seja, se o estado $i$ tem período $d$, e o estado $i$ e $j$ se comunicam, então o estado $j$ também tem período $d$.
 
- *Referência: Sheldon, M. Ross: Introduction to probability models"
+*Referência: Sheldon, M. Ross: Introduction to probability models"
 
-### Random Walk simétrica infinita com D = 1 e D = 2:
- Em ambas as dimensões \(D = 1\) e \(D = 2\), o passeio aleatório simétrico é \textbf{recorrente}, ou seja, com \textbf{probabilidade 1}, o caminhante retornará à origem após um número finito de passos. Além disso, como todos os estados são \textbf{comunicáveis} entre si, isso implica que todos os estados terão o mesmo período, conforme a definição de \textbf{periodicidade}. O raciocínio para entender a periodicidade de um passeio aleatório simétrico em \(D = 1\) e \(D = 2\) é análogo, com o mesmo princípio fundamental de que o retorno à origem só ocorre após um número \textbf{par} de passos.
- Para retornar ao estado zero, é necessário que o caminhante dê \(n\) passos em uma direção e \(n\) passos na direção oposta (para a direita e para a esquerda, no caso de \(D = 1\), ou em direções horizontais e verticais, no caso de \(D = 2\)). Dessa forma, o retorno à origem só é possível após \(2n\) passos. Como o retorno ao estado zero ocorre apenas em \textbf{tempos pares}, podemos definir o passeio aleatório como tendo \textbf{período \(d = 2\)}.
+### Random Walk unidimencional e simétrica em $S= \mathbb{Z}$
+Como a cadeia é irredutível, a análise do período do estado 0 se aplica a todos os estados da cadeia. Observamos que é impossível retornar ao estado 0 após um número ímpar de passos. Para retornar ao estado 0, o passeio precisa equilibrar o número de movimentos para a direita e para a esquerda, ou seja, "ganhar" n vezes e "perder" n vezes, o que só é possível após 2n passos. Isso implica que o processo é periódico com período 2, pois os retornos à origem ocorrem sempre após um número par de passos.
  
- Exemplo do tempo de recorrencia ao estado zero de um random walk D = 1:
- ```{r}
- library(ggplot2)
-
- simular_passeio_aleatorio <- function(n_passos) {
+Exemplo do tempo de recorrencia ao estado zero de um random walk D = 1:
+```{r,echo=FALSE}
+library(ggplot2)
+set.seed(150)
+simular_passeio_aleatorio <- function(n_passos) {
   passos <- sample(c(-1, 1), size = n_passos, replace = TRUE)
   trajetoria <- cumsum(passos)
   tempos_zero <- which(trajetoria == 0)
@@ -466,15 +466,73 @@ O mesmo foi provado por George Pólya: "Em dimensões $d=2$, a caminhada aleató
            label = paste("Índices de Recorrência ao Zero:\n", paste(df_legenda$Passo, collapse = ", ")), 
            size = 4, hjust = 1)
 
- ```
+```
 
- Podemos perceber que todos os períodos em que o processo retorna ao zero são pares.
+Isso prejudica a análise de recorrência e transitoriedade, limitando a capacidade de interpretar ou prever padrões de longo prazo. Segundo o livro de Frank Spitzer: Principles of Random Walk, um passeio aleatório periódico é um processo mal interpretado porque as restrições impostas pela periodicidade dificultam o estudo de propriedades essenciais, como o comportamento de longo prazo e a convergência para distribuições estacionárias. Felizmente, é possível transformar um passeio periódico em aperiódico sem perder as propriedades importantes do processo, como irredutibilidade e recorrência positiva
 
-### Random Walk simétrica com \(D \geq 3\):
-Em dimensões \(D \geq 3\), o comportamento do passeio aleatório simétrico difere significativamente daquele observado em \(D = 1\) e \(D = 2\). Nesses casos, o passeio aleatório se torna \textbf{transiente}, o que significa que, com \textbf{probabilidade 1}, o caminheiro não retornará à origem após um número finito de passos.
+Como estamos trabalhando com passeios aleatórios simétricos em $S = \{0, 1,...,N\}$ com bordas reflexivas, a introdução dessas bordas elimina a periodicidade do processo. Isso ocorre porque,ao atingir os limites N , o passeio é refletido, impedindo que ele siga o padrão regular de tempos de retorno típico de processos periódicos. Essa característica permite que o processo fique nos estados 0 ou N por um tempo arbitrário, tornando-o aperiódico.
 
-Além disso, em dimensões \(D \geq 3\), o passeio aleatório é \textbf{aperiódico}, o que significa que não existe um período fixo \(d\) tal que o caminheiro retorne à origem após múltiplos inteiros de \(d\) passos.
 
+A aperiodicidade é crucial para garantir que o processo explore o espaço de estados de maneira mais flexível, sem restrições temporais, e para assegurar a convergência para uma distribuição estacionária, quando o espaço de estados é finito.
+
+Vamos simular uma trajetória da matriz de transição que estamos trabalhando para verificar a aperiodicidade
+
+$$
+P = \begin{bmatrix}
+\frac{1}{2} & \frac{1}{2} & 0 & 0 \\
+\frac{1}{2} & 0 & \frac{1}{2} & 0 \\
+0 & \frac{1}{2} & 0 & \frac{1}{2} \\
+0 & 0 & \frac{1}{2} & \frac{1}{2}
+\end{bmatrix} \
+$$
+
+
+```{r,echo=FALSE}
+library(ggplot2)
+set.seed(150)
+
+simular_passeio_reflexivo <- function(n_passos, N) {
+  estado <- 0
+  trajetoria <- numeric(n_passos)
+  trajetoria[1] <- estado
+  
+  for (t in 2:n_passos) {
+    passo <- sample(c(-1, 1), size = 1)
+    estado <- estado + passo
+    
+    if (estado < 0) {
+      estado <- 0
+    } else if (estado > N) {
+      estado <- N
+    }
+    
+    trajetoria[t] <- estado
+  }
+  
+  return(trajetoria)
+}
+
+n_passos <- 10
+N <- 3
+trajetoria <- simular_passeio_reflexivo(n_passos, N)
+
+df <- data.frame(Passo = 1:n_passos, Posição = trajetoria)
+df_retornos <- df[df$Posição == 0, ]
+
+ggplot(df, aes(x = Passo, y = Posição)) +
+  geom_line(color = "blue", size = 1) +
+  geom_point(data = df_retornos, aes(x = Passo, y = Posição), color = "red", size = 3) +
+  geom_hline(yintercept = c(0, N), color = "black", linetype = "dashed", size = 0.8) +
+  labs(
+    x = "t",
+    y = "X(t)"
+  ) +
+  scale_x_continuous(breaks = 1:n_passos) +
+  theme_minimal() +
+  theme(axis.text = element_text(size = 10), axis.title = element_text(size = 14))
+```
+
+Podemos verificar que o processo atinge o estado 0 em tempos arbitrários. O que indica a aperíodicidade do processo.
 
 ## Tempo de 1° visita/passagem e recorrência ???
 
