@@ -2,6 +2,7 @@
 title: "Passeio Aleatório Simétrico"
 author: "Davi, Diogo, João e Thiago"
 date: "`r Sys.Date()`"
+
 ---
 
 ```{r setup, echo=FALSE}
@@ -121,7 +122,8 @@ Consequentemente, temos para assimétrico $p \neq \frac{1}{2}$.
 
 Podemos analisar as matrizes dada a simetria e assímetria associadas e suas propriedades!
 
-#### **4. Exemplo para \( N = 3 \) (espaço \( S = \{0, 1, 2, 3\} \))**
+####  Exemplo para \( N = 3 \) (espaço \( S = \{0, 1, 2, 3\} \))
+
 Com \( p = 0.5 \) e contornos reflexivos:
 $$
 P =
@@ -135,6 +137,7 @@ $$
 *Propriedades Específicas*: **Recorrência**, **Distribuição Assintótica**
 
 #### Caso passeio Aleatório Assimétrico $p \neq \frac{1}{2}$
+
 Com \( p = 0.66 \) e contornos reflexivos:
 $$
 P =
@@ -226,9 +229,8 @@ O que podemos observar aqui?
   
 
 
-3 - distibuição invariante e distribuição limite (quando houver);
-
-#### Distribuição invariante
+## Distribuições (invariante e limite)
+### Distribuição invariante
 A **distribuição invariante** de uma cadeia de Markov como vista em aula é uma distribuição de probabilidade $\pi = (\pi_i)$ tal que, ao aplicarmos a matriz de transição $P$, a distribuição permanece inalterada tal que:
 $$
 \pi P = \pi.
@@ -265,9 +267,10 @@ $$
 \pi = \left( \frac{1}{4}, \frac{1}{4}, \frac{1}{4}, \frac{1}{4} \right)
 $$
 
+vc
 *Ao longo prazo a partícula estará em qualquer estado com a mesma probabilidade*
 
-#### Distribuição Limite
+### Distribuição Limite
 A **distibuição limite** de uma cadeia de Markov é o estado ao qual a distribuição converge  muitas iterações da matriz da transição, isto é, quando $n \to \infty$ independente da distribuição inicial $\pi^{(0)}$
 
 $$
@@ -294,8 +297,7 @@ $$
 
 - **Mixing Time**: O tempo necessário para atingir a distribuição uniforme (limite) depende do tamanho do espaçço $N + 1$
 - **Propriedade de Confinamento** : O reflexivo evita que a partícula "escape", garantindo que a soma das probabilidades seja sempre 1.
-- 
-
+  
 **Muda muita coisa se estamos falando de contorno absorvente?** *Muda sim, e muito!*
 
 Se analisarmos o contexto do passeio aleatório simétrico com **contorno absorvente**, vemos que as regras de transições são modificadas, de modo que, ao atingir um dos estados do contorno ($i=0$ ou $i=N$), o processo **não pode mais sair desse estado**.
@@ -375,7 +377,7 @@ P =
 $$
 
 <div style="text-align: center;">
-![](img/01.png)
+![](img\01.png)
 </div>
 
 Análisando o grafo podemos notar que os estados {0,1,2,3,4} são uma classe fechada, irredutível.
