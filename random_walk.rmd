@@ -13,10 +13,13 @@ knitr::opts_chunk$set(warning = FALSE)
 knitr::opts_chunk$set(message = FALSE)
 ```
 ```{r libs, echo=FALSE}
+
 library(knitr)
 library(ggplot2)
 library(gganimate)
 library(plotly)
+library(markovchain)
+library(igraph)
 ```
 
 ## Definição do processo estocástico (cadeia de Markov);
@@ -50,14 +53,14 @@ Isso significa que, em média, o processo não tende para um lado específico, m
 ## Matriz de transição;
 
 #### Definição de Matriz de Transição
-    
+
 A **matriz de transição** $P$ descreve as probabilidades de transição de um estado $i$ para outro estado $j$ em um único passo.
 
 Para o passeio aleatório com espaço de estados $S= \mathbb{Z}$, temos:
 
-$$ 
-P_{i,j} = 
-\begin{cases} 
+$$
+P_{i,j} =
+\begin{cases}
 p & \text{se } j = i+1, \\
 1-p & \text{se } j = i-1, \\
 0 & \text{caso contrário.}
@@ -69,14 +72,14 @@ $$
 Se $S = \{0, 1, 2 ,3 ,4\}$ um espaço de estados discreto finito, a matriz de transição $P$ é dada por:
 
 $$
-P = 
+P =
 \begin{bmatrix}
 P_{0,0} & P_{0,1} & P_{0,2} & P_{0,3} & P_{0,4} \\
 P_{1,0} & P_{1,1} & P_{1,2} & P_{1,3} & P_{1,4} \\
 P_{2,0} & P_{2,1} & P_{2,2} & P_{2,3} & P_{2,4} \\
 P_{3,0} & P_{3,1} & P_{3,2} & P_{3,3} & P_{3,4} \\
-P_{4,0} & P_{4,1} & P_{4,2} & P_{4,3} & P_{4,4} 
-\end{bmatrix}. 
+P_{4,0} & P_{4,1} & P_{4,2} & P_{4,3} & P_{4,4}
+\end{bmatrix}.
 $$
 
 Para o nosso caso de passeio aleatório **finito** $S =\{0,1,2,...,N\}$ a matriz de transição será uma matriz $(N+1)\times(N+1)$.
@@ -230,7 +233,7 @@ O que podemos observar aqui?
 - A matriz $P^{500}$ nos mostra que, após um grande número de passos as probabilidades de transição entre os estados estão completamente equilibradas e uniformes
 - Cada estado tem uma probabilidade de transitar para qualquer outro estado. Portanto depois de muitos passos a cadeia de Markov perde sua memória do estado inicial e atinge um estado de **equilíbrio estacionário**
 - Essa distribuição uniforme de probabilidades é característica de uma cadeia de Markov irreducível e aperiódica, onde todos os estados são acessíveis e a cadeia não possui ciclos regulares.
-  
+
 
 
 3 - distibuição invariante e distribuição limite (quando houver);
@@ -301,15 +304,15 @@ $$
 
 - **Mixing Time**: O tempo necessário para atingir a distribuição uniforme (limite) depende do tamanho do espaçço $N + 1$
 - **Propriedade de Confinamento** : O reflexivo evita que a partícula "escape", garantindo que a soma das probabilidades seja sempre 1.
-- 
+-
 
 **Muda muita coisa se estamos falando de contorno absorvente?** *Muda sim, e muito!*
 
 Se analisarmos o contexto do passeio aleatório simétrico com **contorno absorvente**, vemos que as regras de transições são modificadas, de modo que, ao atingir um dos estados do contorno ($i=0$ ou $i=N$), o processo **não pode mais sair desse estado**.
 
-Então ao vermos a **distribuição estacionária**, temos que ver diferente do sentido clássico pois o sistema pode ser absorvido em $0$ ou $N$. No entando podemos descrever a **probabilidade de absorção** em cada estado absorvente. 
+Então ao vermos a **distribuição estacionária**, temos que ver diferente do sentido clássico pois o sistema pode ser absorvido em $0$ ou $N$. No entando podemos descrever a **probabilidade de absorção** em cada estado absorvente.
 
-Então suponhamos que o passeio comece no estado $i (1 \leq i \leq N-1)$. 
+Então suponhamos que o passeio comece no estado $i (1 \leq i \leq N-1)$.
 
 - $P^{(0)}_i$ -> Probabiliadde do passeio ser absorvido no estado 0
 - $P^{(N)}_i$ -> Probabiliadde do passeio ser absorvido no estado N
@@ -435,7 +438,7 @@ O estado $i$ tem período d se $P_{i,i}^n = 0$ sempre que $n$ não for divisíve
 
 ### Random Walk unidimencional e simétrica em $S= \mathbb{Z}$
 Como a cadeia é irredutível, a análise do período do estado 0 se aplica a todos os estados da cadeia. Observamos que é impossível retornar ao estado 0 após um número ímpar de passos. Para retornar ao estado 0, o passeio precisa equilibrar o número de movimentos para a direita e para a esquerda, ou seja, "ganhar" n vezes e "perder" n vezes, o que só é possível após 2n passos. Isso implica que o processo é periódico com período 2, pois os retornos à origem ocorrem sempre após um número par de passos.
- 
+
 Exemplo do tempo de recorrencia ao estado zero de um random walk D = 1:
 ```{r,echo=FALSE}
 library(ggplot2)
@@ -462,8 +465,8 @@ simular_passeio_aleatorio <- function(n_passos) {
   labs(x = "t", y = "X(t)") +
   theme_minimal() +
   theme(axis.text = element_text(size = 5), axis.title = element_text(size = 14)) +
-  annotate("text", x = max(df$Passo) * 0.8, y = max(df$Posição) * 0.9, 
-           label = paste("Índices de Recorrência ao Zero:\n", paste(df_legenda$Passo, collapse = ", ")), 
+  annotate("text", x = max(df$Passo) * 0.8, y = max(df$Posição) * 0.9,
+           label = paste("Índices de Recorrência ao Zero:\n", paste(df_legenda$Passo, collapse = ", ")),
            size = 4, hjust = 1)
 
 ```
@@ -495,20 +498,20 @@ simular_passeio_reflexivo <- function(n_passos, N) {
   estado <- 0
   trajetoria <- numeric(n_passos)
   trajetoria[1] <- estado
-  
+
   for (t in 2:n_passos) {
     passo <- sample(c(-1, 1), size = 1)
     estado <- estado + passo
-    
+
     if (estado < 0) {
       estado <- 0
     } else if (estado > N) {
       estado <- N
     }
-    
+
     trajetoria[t] <- estado
   }
-  
+
   return(trajetoria)
 }
 
@@ -536,7 +539,70 @@ Podemos verificar que o processo atinge o estado 0 em tempos arbitrários. O que
 
 ## Tempo de 1° visita/passagem e recorrência ???
 
-## Probabilidade de Absorção ???
+## Probabilidade de absorção
+### Cenário 1
+$$
+P =
+\begin{bmatrix}
+0.5 & 0.5 & 0 & 0 \\
+0.5 & 0 & 0.5 & 0 \\
+0 & 0.5 & 0 & 0.5 \\
+0 & 0 & 0.5 & 0.5
+\end{bmatrix}
+$$
+
+```{r graph1, echo = FALSE}
+
+m <- matrix(c(0.5, 0.5, 0.0, 0.0,
+              0.5, 0.0, 0.5, 0.0,
+              0.0, 0.5, 0.0, 0.5,
+              0.0, 0.0, 0.5, 0.5), nrow = 4, byrow = TRUE)
+
+cenario1<- new("markovchain", states = c("1", "2", "3", "4"), transitionMatrix = m)
+plot(cenario1,package="diagram")
+```
+
+Podemos facilmente concluir que não faz sentido tratar de probabilidade de absorção nesse passeio aleatório.
+Exemplo: situação de um sistema de tráfego com os estados representando a intensidade do congestionamento (0 = livre, 3 = congestionado).
+
+### Cenário 2
+$$
+P =
+\begin{bmatrix}
+1 & 0 & 0 & 0 \\
+0.5 & 0 & 0.5 & 0 \\
+0 & 0.5 & 0 & 0.5 \\
+0 & 0 & 0 & 1
+\end{bmatrix}
+$$
+
+```{r graph2, echo = FALSE}
+
+m <- matrix(c(1.0, 0.0, 0.0, 0.0,
+              0.5, 0.0, 0.5, 0.0,
+              0.0, 0.5, 0.0, 0.5,
+              0.0, 0.0, 0.0, 1.0), ncol = 4, byrow = TRUE)
+
+cenario2<- new("markovchain", states = c("1", "2", "3", "4"), transitionMatrix = m)
+plot(cenario2,package="diagram")
+```
+
+Neste cenário, podemos notar que temos 2 estados absorventes (1 e 4) e os demais são estados transientes.
+Essa configuração nos nos permite afirmar não só que há estados transientes como a cadeia como se trata de uma cadeia absorvente, ou seja, a probabilidade do processo ser absorvido é 1.
+Imaginando na prática podemos pensar nessa matriz como uma representação de um apostador que para de jogar ao ficar sem dinheiro, estado 0, ou quando chega em determinado valor, estado = 4.
+
+Com isso, faz sentido calcularmos as probabilidades de absorção dos estados absorventes condicionada ao estado inicial do processo;
+
+```{r}
+
+m <- matrix(c(1.0, 0.0, 0.0, 0.0,
+              0.5, 0.0, 0.5, 0.0,
+              0.0, 0.5, 0.0, 0.5,
+              0.0, 0.0, 0.0, 1.0), ncol = 4, byrow = TRUE)
+mc <- new("markovchain", states = letters[1:4], transitionMatrix = m)
+absorptionProbabilities(mc)
+```
+
 
 ## Curiosidades e Aplicações
 
