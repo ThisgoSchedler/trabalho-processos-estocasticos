@@ -429,14 +429,13 @@ O mesmo foi provado por George Pólya: "Em dimensões $d=2$, a caminhada aleató
 
 
 ## Periodicidade;
-O estado $i$ tem período d se $P_{i,i}^n = 0$ sempre que $n$ não for divisível por $d$, e $d$ é o maior inteiro com essa propriedade. Por exemplo, começando no estado $i$ só sera possível o processo acessar o estado $i$ nos tempo 2,4,6,8,..., nesse caso o estado $i$ tem período 2. Um estado com período 1 é classificado como **aperiódico**. Periodicidade é uma propriedade de classe, ou seja, se o estado $i$ tem período $d$, e o estado $i$ e $j$ se comunicam, então o estado $j$ também tem período $d$.
+O estado $i$ tem período $d$ se $P_{i,i}^n = 0$ sempre que $n$ não for divisível por $d$, e $d$ é o maior inteiro com essa propriedade. Por exemplo, começando no estado $i$ só sera possível o processo acessar o estado $i$ nos tempo 2,4,6,8,..., nesse caso o estado $i$ tem período 2. Um estado com período 1 é classificado como **aperiódico**. Periodicidade é uma propriedade de classe, ou seja, se o estado $i$ tem período $d$, e o estado $i$ e $j$ se comunicam, então o estado $j$ também tem período $d$.
 
 *Referência: Sheldon, M. Ross: Introduction to probability models"
 
 ### Random Walk unidimencional e simétrica em $S= \mathbb{Z}$
 Como a cadeia é irredutível, a análise do período do estado 0 se aplica a todos os estados da cadeia. Observamos que é impossível retornar ao estado 0 após um número ímpar de passos. Para retornar ao estado 0, o passeio precisa equilibrar o número de movimentos para a direita e para a esquerda, ou seja, "ganhar" n vezes e "perder" n vezes, o que só é possível após 2n passos. Isso implica que o processo é periódico com período 2, pois os retornos à origem ocorrem sempre após um número par de passos.
- 
-Exemplo do tempo de recorrencia ao estado zero de um random walk D = 1:
+
 ```{r,echo=FALSE}
 library(ggplot2)
 set.seed(150)
@@ -468,12 +467,10 @@ simular_passeio_aleatorio <- function(n_passos) {
 
 ```
 
-Isso prejudica a análise de recorrência e transitoriedade, limitando a capacidade de interpretar ou prever padrões de longo prazo. Segundo o livro de Frank Spitzer: Principles of Random Walk, um passeio aleatório periódico é um processo mal formulado porque as restrições impostas pela periodicidade dificultam o estudo de propriedades essenciais, como o comportamento de longo prazo e a convergência para distribuições estacionárias.
-
+Isso prejudica a análise de recorrência e transitoriedade, limitando a capacidade de interpretar ou prever padrões de longo prazo. Segundo o livro de Frank Spitzer: Principles of Random Walk, um passeio aleatório periódico é um processo "mal formulado" porque as restrições impostas pela periodicidade dificultam o estudo de propriedades essenciais, como o comportamento de longo prazo e a convergência para distribuições estacionárias.
 
 ### Transformando um passeio aleatório periódico em aperiódico:
-
-Spitzer ressalta que, em termos da teoria dos grupos, todo passeio periódico pode ser reduzido a um caso aperiódico porque o grupo subjacente $S$ é isomorfo a um grupo $bar{S}$ de dimensão apropriada. Isso significa que, mesmo que o passeio seja originalmente periódico, existe uma maneira de reestruturar $S$ para alinhar o passeio com uma configuração aperiódica.
+Spitzer ressalta que, em termos da teoria dos grupos, todo passeio periódico pode ser reduzido a um caso aperiódico porque o grupo subjacente $S$ é isomorfo a um grupo $\bar{S}$ de dimensão apropriada. Isso significa que, mesmo que o passeio seja originalmente periódico, existe uma maneira de reestruturar $S$ para alinhar o passeio com uma configuração aperiódica.
 
 Um exemplo disso, é o caso em que trabalhamos com passeios aleatórios simétricos em $S = \{0, 1,...,N\}$ com bordas reflexivas, a introdução dessas bordas elimina a periodicidade do processo. Isso ocorre porque,ao atingir os limites N , o passeio é refletido, impedindo que ele siga o padrão regular de tempos de retorno típico de processos periódicos. Essa característica permite que o processo fique nos estados 0 ou N por um tempo arbitrário, tornando-o aperiódico.
 
@@ -536,8 +533,11 @@ ggplot(df, aes(x = Passo, y = Posição)) +
 Podemos verificar que o processo atinge o estado 0 em tempos arbitrários. O que indica a aperíodicidade do processo.
 
 Características desse processo:
+
 - irredutível
+
 - recorrente positiva
+
 - aperiódica
 
 Como o processo possui essas características podemos afirmar que estamos trabalhando com uma cadeia **ergódica**, então o processo terá as seguintes propriedades:
@@ -552,9 +552,9 @@ $\mathbb{E}_i[T_i] = \frac{1}{\pi_i}$
 $\frac{\text{Número de visitas a } i}{n} \to \pi_i \quad \text{quase certamente}$
 
 ## Tempo de 1° visita/passagem e recorrência
-Neste estudo, trabalharemos com a seguinte matriz de transição \( P \), que descreve um passeio aleatório simétrico e com bordas reflexivas em (\( S = \{0, 1, 2, 3\} \)):
+Neste estudo, trabalharemos com a seguinte matriz de transição $P$, que descreve um passeio aleatório simétrico e com bordas reflexivas em $S = \{0, 1,...,N\}$:
 
-\[
+$$
 P =
 \begin{bmatrix}
 \frac{1}{2} & \frac{1}{2} & 0 & 0 \\
@@ -562,9 +562,9 @@ P =
 0 & \frac{1}{2} & 0 & \frac{1}{2} \\
 0 & 0 & \frac{1}{2} & \frac{1}{2}
 \end{bmatrix}
-\]
+$$
 
-O processo começa no estado \( 0 \), com uma distribuição inicial \( (1, 0, 0, 0) \).
+O processo começa no estado $0$, com uma distribuição inicial $(1, 0, 0, 0)$.
 
 Além disso, as propriedades analisadas neste estudo, como tempos de primeira visita, tempos de retorno e recorrência, também se aplicam a espaços de estados maiores.
 
